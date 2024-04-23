@@ -1,0 +1,120 @@
+---
+title: "Final Project"
+---
+
+## Quarto
+
+```{r}
+install.packages("Matrix")
+```
+
+```{r}
+install.packages("lattice")
+```
+
+```{r}
+renv::init()
+```
+
+```{r}
+renv::snapshot()
+```
+
+```{r}
+getwd()
+```
+
+```{r}
+renv::status()
+```
+
+```{r}
+.libPaths()
+```
+
+```{r}
+install.packages("renv")
+```
+
+```{r}
+renv::snapshot()
+```
+
+```{r}
+install.packages("reticulate")
+renv::snapshot()
+```
+
+```{r}
+library(reticulate)
+use_python("C:/Users/C25Swayam.Singh/AppData/Local/Programs/Python/Python312/python.exe", required = TRUE)
+py_config()
+```
+
+# Restart R Here
+
+```{r}
+library(reticulate)
+use_virtualenv("C:/Users/C25Swayam.Singh/Documents/.virtualenvs/r-reticulate", required = TRUE)
+py_config()
+```
+
+```{r}
+numpy <- import("numpy")
+print(numpy$random$rand(5L))
+```
+
+```{r}
+# Importing NumPy
+numpy <- import("numpy")
+
+array <- numpy$array(c(1, 2, 3, 4, 5))
+
+squared_array <- numpy$square(array)
+print(squared_array)
+```
+
+```{r}
+renv::snapshot()
+```
+
+```{r}
+system("pip freeze > requirements.txt")
+```
+
+```{r}
+library(reticulate)
+py_run_string("import pandas as pd")
+py_run_string("print(pd.__version__)")
+```
+
+```{r}
+renv::snapshot()
+```
+
+```{r}
+install.packages("bslib")
+install.packages("jsonlite")
+install.packages("rmarkdown")
+
+library(reticulate)
+
+use_python("C:/Users/C25Swayam.Singh/AppData/Local/Programs/Python/Python312/python.exe", required = TRUE)
+
+```
+
+```{r}
+renv::snapshot()
+
+py_config()
+
+```
+
+```{r}
+py_run_string("import sys; print(sys.version)")
+
+```
+
+```{r}
+Sys.which("make")
+```

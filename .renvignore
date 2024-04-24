@@ -1,0 +1,27 @@
+# Ignore cache directories
+__pycache__/
+.cache/
+
+# Ignore large data files
+data/large_datasets/
+
+# Ignore specific file types
+*.csv
+*.xlsx
+
+# Ignore documentation files
+docs/
+
+# Add these lines to your .renvignore file
+Lib/encodings/__pycache__/
+Lib/__pycache__/
+Lib/test/
+Lib/test/__pycache__/
+Doc/html/library/
+
+# Example .renvignore content
+node_modules/
+some_large_data_folder/
+*.csv
+*.xlsx
+options(renv.config.dependencies.limit = Inf)

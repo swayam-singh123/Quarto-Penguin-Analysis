@@ -1,53 +1,26 @@
 <!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
-<html>
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.553">
 
-<head>
-
-<meta charset="utf-8" />
-<meta name="generator" content="pandoc" />
-<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
-
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-
-<title>Calling Python from R</title>
-
-<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
-// be compatible with the behavior of Pandoc < 2.8).
-document.addEventListener('DOMContentLoaded', function(e) {
-  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
-  var i, h, a;
-  for (i = 0; i < hs.length; i++) {
-    h = hs[i];
-    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
-    a = h.attributes;
-    while (a.length > 0) h.removeAttribute(a[0].name);
-  }
-});
-</script>
-
-<style type="text/css">
+<title>Final Project - Calling Python from R</title>
+<style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-span.underline{text-decoration: underline;}
-div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
-</style>
-
-
-
-<style type="text/css">
-code {
-white-space: pre;
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
 }
-.sourceCode {
-overflow: visible;
-}
-</style>
-<style type="text/css" data-origin="pandoc">
+/* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -63,341 +36,222 @@ pre > code.sourceCode { white-space: pre-wrap; }
 pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
-{ counter-reset: source-line 0; }
+  { counter-reset: source-line 0; }
 pre.numberSource code > span
-{ position: relative; left: -4em; counter-increment: source-line; }
+  { position: relative; left: -4em; counter-increment: source-line; }
 pre.numberSource code > span > a:first-child::before
-{ content: counter(source-line);
-position: relative; left: -1em; text-align: right; vertical-align: baseline;
-border: none; display: inline-block;
--webkit-touch-callout: none; -webkit-user-select: none;
--khtml-user-select: none; -moz-user-select: none;
--ms-user-select: none; user-select: none;
-padding: 0 4px; width: 4em;
-color: #aaaaaa;
-}
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
 div.sourceCode
-{ }
+  {   }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } 
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
-code span.at { color: #7d9029; } 
-code span.bn { color: #40a070; } 
-code span.bu { color: #008000; } 
-code span.cf { color: #007020; font-weight: bold; } 
-code span.ch { color: #4070a0; } 
-code span.cn { color: #880000; } 
-code span.co { color: #60a0b0; font-style: italic; } 
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
-code span.do { color: #ba2121; font-style: italic; } 
-code span.dt { color: #902000; } 
-code span.dv { color: #40a070; } 
-code span.er { color: #ff0000; font-weight: bold; } 
-code span.ex { } 
-code span.fl { color: #40a070; } 
-code span.fu { color: #06287e; } 
-code span.im { color: #008000; font-weight: bold; } 
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
-code span.kw { color: #007020; font-weight: bold; } 
-code span.op { color: #666666; } 
-code span.ot { color: #007020; } 
-code span.pp { color: #bc7a00; } 
-code span.sc { color: #4070a0; } 
-code span.ss { color: #bb6688; } 
-code span.st { color: #4070a0; } 
-code span.va { color: #19177c; } 
-code span.vs { color: #4070a0; } 
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
 </style>
-<script>
-// apply pandoc div.sourceCode style to pre.sourceCode instead
-(function() {
-  var sheets = document.styleSheets;
-  for (var i = 0; i < sheets.length; i++) {
-    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
-    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    var j = 0;
-    while (j < rules.length) {
-      var rule = rules[j];
-      // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
-        j++;
-        continue;
-      }
-      var style = rule.style.cssText;
-      // check if color or background-color is set
-      if (rule.style.color === '' && rule.style.backgroundColor === '') {
-        j++;
-        continue;
-      }
-      // replace div.sourceCode by a pre.sourceCode rule
-      sheets[i].deleteRule(j);
-      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
-    }
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
-})();
-</script>
+}</script>
 
 
-
-
-<style type="text/css">body {
-background-color: #fff;
-margin: 1em auto;
-max-width: 700px;
-overflow: visible;
-padding-left: 2em;
-padding-right: 2em;
-font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-font-size: 14px;
-line-height: 1.35;
-}
-#TOC {
-clear: both;
-margin: 0 0 10px 10px;
-padding: 4px;
-width: 400px;
-border: 1px solid #CCCCCC;
-border-radius: 5px;
-background-color: #f6f6f6;
-font-size: 13px;
-line-height: 1.3;
-}
-#TOC .toctitle {
-font-weight: bold;
-font-size: 15px;
-margin-left: 5px;
-}
-#TOC ul {
-padding-left: 40px;
-margin-left: -1.5em;
-margin-top: 5px;
-margin-bottom: 5px;
-}
-#TOC ul ul {
-margin-left: -2em;
-}
-#TOC li {
-line-height: 16px;
-}
-table {
-margin: 1em auto;
-border-width: 1px;
-border-color: #DDDDDD;
-border-style: outset;
-border-collapse: collapse;
-}
-table th {
-border-width: 2px;
-padding: 5px;
-border-style: inset;
-}
-table td {
-border-width: 1px;
-border-style: inset;
-line-height: 18px;
-padding: 5px 5px;
-}
-table, table th, table td {
-border-left-style: none;
-border-right-style: none;
-}
-table thead, table tr.even {
-background-color: #f7f7f7;
-}
-p {
-margin: 0.5em 0;
-}
-blockquote {
-background-color: #f6f6f6;
-padding: 0.25em 0.75em;
-}
-hr {
-border-style: solid;
-border: none;
-border-top: 1px solid #777;
-margin: 28px 0;
-}
-dl {
-margin-left: 0;
-}
-dl dd {
-margin-bottom: 13px;
-margin-left: 13px;
-}
-dl dt {
-font-weight: bold;
-}
-ul {
-margin-top: 0;
-}
-ul li {
-list-style: circle outside;
-}
-ul ul {
-margin-bottom: 0;
-}
-pre, code {
-background-color: #f7f7f7;
-border-radius: 3px;
-color: #333;
-white-space: pre-wrap; 
-}
-pre {
-border-radius: 3px;
-margin: 5px 0px 10px 0px;
-padding: 10px;
-}
-pre:not([class]) {
-background-color: #f7f7f7;
-}
-code {
-font-family: Consolas, Monaco, 'Courier New', monospace;
-font-size: 85%;
-}
-p > code, li > code {
-padding: 2px 0px;
-}
-div.figure {
-text-align: center;
-}
-img {
-background-color: #FFFFFF;
-padding: 2px;
-border: 1px solid #DDDDDD;
-border-radius: 3px;
-border: 1px solid #CCCCCC;
-margin: 0 5px;
-}
-h1 {
-margin-top: 0;
-font-size: 35px;
-line-height: 40px;
-}
-h2 {
-border-bottom: 4px solid #f7f7f7;
-padding-top: 10px;
-padding-bottom: 2px;
-font-size: 145%;
-}
-h3 {
-border-bottom: 2px solid #f7f7f7;
-padding-top: 10px;
-font-size: 120%;
-}
-h4 {
-border-bottom: 1px solid #f7f7f7;
-margin-left: 8px;
-font-size: 105%;
-}
-h5, h6 {
-border-bottom: 1px solid #ccc;
-font-size: 105%;
-}
-a {
-color: #0033dd;
-text-decoration: none;
-}
-a:hover {
-color: #6666ff; }
-a:visited {
-color: #800080; }
-a:visited:hover {
-color: #BB00BB; }
-a[href^="http:"] {
-text-decoration: underline; }
-a[href^="https:"] {
-text-decoration: underline; }
-
-code > span.kw { color: #555; font-weight: bold; } 
-code > span.dt { color: #902000; } 
-code > span.dv { color: #40a070; } 
-code > span.bn { color: #d14; } 
-code > span.fl { color: #d14; } 
-code > span.ch { color: #d14; } 
-code > span.st { color: #d14; } 
-code > span.co { color: #888888; font-style: italic; } 
-code > span.ot { color: #007020; } 
-code > span.al { color: #ff0000; font-weight: bold; } 
-code > span.fu { color: #900; font-weight: bold; } 
-code > span.er { color: #a61717; background-color: #e3d2d2; } 
-</style>
-
-
-
-
+<link rel="stylesheet" href="styles.css">
 </head>
 
-<body>
+<body class="nav-fixed">
 
-
-
-
-<h1 class="title toc-ignore">Calling Python from R</h1>
-
-
-
-<div id="overview" class="section level2">
-<h2>Overview</h2>
-<p>The <strong>reticulate</strong> package provides an R interface to
-Python modules, classes, and functions. For example, this code imports
-the Python <code>os</code> module and calls some functions within
-it:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(reticulate)</span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>os <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">&quot;os&quot;</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>os<span class="sc">$</span><span class="fu">listdir</span>(<span class="st">&quot;.&quot;</span>)</span></code></pre></div>
-<pre><code> [1] &quot;.git&quot;             &quot;.gitignore&quot;       &quot;.Rbuildignore&quot;    &quot;.RData&quot;          
- [5] &quot;.Rhistory&quot;        &quot;.Rproj.user&quot;      &quot;.travis.yml&quot;      &quot;appveyor.yml&quot;    
- [9] &quot;DESCRIPTION&quot;      &quot;docs&quot;             &quot;external&quot;         &quot;index.html&quot;      
-[13] &quot;index.Rmd&quot;        &quot;inst&quot;             &quot;issues&quot;           &quot;LICENSE&quot;         
-[17] &quot;man&quot;              &quot;NAMESPACE&quot;        &quot;NEWS.md&quot;          &quot;pkgdown&quot;         
-[21] &quot;R&quot;                &quot;README.md&quot;        &quot;reticulate.Rproj&quot; &quot;src&quot;             
-[25] &quot;tests&quot;            &quot;vignettes&quot;      </code></pre>
-<p>Functions and other data within Python modules and classes can be
-accessed via the <code>$</code> operator (analogous to the way you would
-interact with an R list, environment, or reference class).</p>
-<p>The <strong>reticulate</strong> package is compatible with all
-versions of Python &gt;= 2.7. Integration with NumPy is optional and
-requires NumPy &gt;= 1.6.</p>
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Final Project</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.qmd"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../eda.html"> 
+<span class="menu-text">Penguins EDA</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../Model.qmd"> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
 </div>
-<div id="python-version" class="section level2">
-<h2>Python Version</h2>
-<p>By default, reticulate uses the version of Python found on your
-<code>PATH</code> (i.e. <code>Sys.which(&quot;python&quot;)</code>). The
-<code>use_python()</code> function enables you to specify an alternate
-version, for example:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">library</span>(reticulate)</span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">use_python</span>(<span class="st">&quot;/usr/local/bin/python&quot;</span>)</span></code></pre></div>
-<p>The <code>use_virtualenv()</code> and <code>use_condaenv()</code>
-functions enable you to specify versions of Python in virtual or conda
-environments, for example:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">library</span>(reticulate)</span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="fu">use_virtualenv</span>(<span class="st">&quot;myenv&quot;</span>)</span></code></pre></div>
-<p>See the article on <a href="versions.html">Python Version
-Configuration</a> for additional details.</p>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#python-version" id="toc-python-version" class="nav-link" data-scroll-target="#python-version">Python Version</a></li>
+  <li><a href="#python-packages" id="toc-python-packages" class="nav-link" data-scroll-target="#python-packages">Python Packages</a></li>
+  <li><a href="#type-conversions" id="toc-type-conversions" class="nav-link" data-scroll-target="#type-conversions">Type Conversions</a></li>
+  <li><a href="#importing-modules" id="toc-importing-modules" class="nav-link" data-scroll-target="#importing-modules">Importing Modules</a></li>
+  <li><a href="#sourcing-scripts" id="toc-sourcing-scripts" class="nav-link" data-scroll-target="#sourcing-scripts">Sourcing Scripts</a></li>
+  <li><a href="#executing-code" id="toc-executing-code" class="nav-link" data-scroll-target="#executing-code">Executing Code</a></li>
+  <li><a href="#object-conversion" id="toc-object-conversion" class="nav-link" data-scroll-target="#object-conversion">Object Conversion</a></li>
+  <li><a href="#getting-help" id="toc-getting-help" class="nav-link" data-scroll-target="#getting-help">Getting Help</a></li>
+  <li><a href="#lists-tuples-and-dictionaries" id="toc-lists-tuples-and-dictionaries" class="nav-link" data-scroll-target="#lists-tuples-and-dictionaries">Lists, Tuples, and Dictionaries</a></li>
+  <li><a href="#numeric-types-and-indexes" id="toc-numeric-types-and-indexes" class="nav-link" data-scroll-target="#numeric-types-and-indexes">Numeric Types and Indexes</a></li>
+  <li><a href="#arrays" id="toc-arrays" class="nav-link" data-scroll-target="#arrays">Arrays</a></li>
+  <li><a href="#data-frames" id="toc-data-frames" class="nav-link" data-scroll-target="#data-frames">Data Frames</a>
+  <ul class="collapse">
+  <li><a href="#using-pandas-nullable-data-types" id="toc-using-pandas-nullable-data-types" class="nav-link" data-scroll-target="#using-pandas-nullable-data-types">Using Pandas nullable data types</a></li>
+  </ul></li>
+  <li><a href="#sparse-matrices" id="toc-sparse-matrices" class="nav-link" data-scroll-target="#sparse-matrices">Sparse Matrices</a></li>
+  <li><a href="#with-contexts" id="toc-with-contexts" class="nav-link" data-scroll-target="#with-contexts">With Contexts</a></li>
+  <li><a href="#iterators" id="toc-iterators" class="nav-link" data-scroll-target="#iterators">Iterators</a>
+  <ul class="collapse">
+  <li><a href="#element-level-iteration" id="toc-element-level-iteration" class="nav-link" data-scroll-target="#element-level-iteration">Element Level Iteration</a></li>
+  <li><a href="#generators" id="toc-generators" class="nav-link" data-scroll-target="#generators">Generators</a></li>
+  </ul></li>
+  <li><a href="#functions" id="toc-functions" class="nav-link" data-scroll-target="#functions">Functions</a>
+  <ul class="collapse">
+  <li><a href="#signatures" id="toc-signatures" class="nav-link" data-scroll-target="#signatures">Signatures</a></li>
+  <li><a href="#background-threads" id="toc-background-threads" class="nav-link" data-scroll-target="#background-threads">Background Threads</a></li>
+  </ul></li>
+  <li><a href="#advanced" id="toc-advanced" class="nav-link" data-scroll-target="#advanced">Advanced</a>
+  <ul class="collapse">
+  <li><a href="#python-objects" id="toc-python-objects" class="nav-link" data-scroll-target="#python-objects">Python Objects</a></li>
+  <li><a href="#pickle" id="toc-pickle" class="nav-link" data-scroll-target="#pickle">Pickle</a></li>
+  <li><a href="#configuration" id="toc-configuration" class="nav-link" data-scroll-target="#configuration">Configuration</a></li>
+  <li><a href="#output-control" id="toc-output-control" class="nav-link" data-scroll-target="#output-control">Output Control</a></li>
+  <li><a href="#miscellaneous" id="toc-miscellaneous" class="nav-link" data-scroll-target="#miscellaneous">Miscellaneous</a></li>
+  </ul></li>
+  <li><a href="#learning-more" id="toc-learning-more" class="nav-link" data-scroll-target="#learning-more">Learning More</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Calling Python from R</h1>
 </div>
-<div id="python-packages" class="section level2">
-<h2>Python Packages</h2>
-<p>You can install any required Python packages using standard shell
-tools like <code>pip</code> and <code>conda</code>. Alternately,
-reticulate includes a set of functions for managing and installing
-packages within virtualenvs and Conda environments. See the article on
-<a href="https://rstudio.github.io/reticulate/articles/python_packages.html">Installing
-Python Packages</a> for additional details.</p>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p>The <strong>reticulate</strong> package provides an R interface to Python modules, classes, and functions. For example, this code imports the Python <code>os</code> module and calls some functions within it:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reticulate)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>os <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"os"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>os<span class="sc">$</span><span class="fu">listdir</span>(<span class="st">"."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="type-conversions" class="section level2">
-<h2>Type Conversions</h2>
-<p>When calling into Python, R data types are automatically converted to
-their equivalent Python types. When values are returned from Python to R
-they are converted back to R types. Types are converted as follows:</p>
-<table>
+<pre><code> [1] ".git"             ".gitignore"       ".Rbuildignore"    ".RData"          
+ [5] ".Rhistory"        ".Rproj.user"      ".travis.yml"      "appveyor.yml"    
+ [9] "DESCRIPTION"      "docs"             "external"         "index.html"      
+[13] "index.Rmd"        "inst"             "issues"           "LICENSE"         
+[17] "man"              "NAMESPACE"        "NEWS.md"          "pkgdown"         
+[21] "R"                "README.md"        "reticulate.Rproj" "src"             
+[25] "tests"            "vignettes"      </code></pre>
+<p>Functions and other data within Python modules and classes can be accessed via the <code>$</code> operator (analogous to the way you would interact with an R list, environment, or reference class).</p>
+<p>The <strong>reticulate</strong> package is compatible with all versions of Python &gt;= 2.7. Integration with NumPy is optional and requires NumPy &gt;= 1.6.</p>
+</section>
+<section id="python-version" class="level2">
+<h2 class="anchored" data-anchor-id="python-version">Python Version</h2>
+<p>By default, reticulate uses the version of Python found on your <code>PATH</code> (i.e.&nbsp;<code>Sys.which("python")</code>). The <code>use_python()</code> function enables you to specify an alternate version, for example:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reticulate)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">use_python</span>(<span class="st">"/usr/local/bin/python"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The <code>use_virtualenv()</code> and <code>use_condaenv()</code> functions enable you to specify versions of Python in virtual or conda environments, for example:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reticulate)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">use_virtualenv</span>(<span class="st">"myenv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>See the article on <a href="versions.html">Python Version Configuration</a> for additional details.</p>
+</section>
+<section id="python-packages" class="level2">
+<h2 class="anchored" data-anchor-id="python-packages">Python Packages</h2>
+<p>You can install any required Python packages using standard shell tools like <code>pip</code> and <code>conda</code>. Alternately, reticulate includes a set of functions for managing and installing packages within virtualenvs and Conda environments. See the article on <a href="https://rstudio.github.io/reticulate/articles/python_packages.html">Installing Python Packages</a> for additional details.</p>
+</section>
+<section id="type-conversions" class="level2">
+<h2 class="anchored" data-anchor-id="type-conversions">Type Conversions</h2>
+<p>When calling into Python, R data types are automatically converted to their equivalent Python types. When values are returned from Python to R they are converted back to R types. Types are converted as follows:</p>
+<table class="table">
 <colgroup>
-<col width="33%" />
-<col width="33%" />
-<col width="33%" />
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -410,8 +264,7 @@ they are converted back to R types. Types are converted as follows:</p>
 <tr class="odd">
 <td>Single-element vector</td>
 <td>Scalar</td>
-<td><code>1</code>, <code>1L</code>, <code>TRUE</code>,
-<code>&quot;foo&quot;</code></td>
+<td><code>1</code>, <code>1L</code>, <code>TRUE</code>, <code>"foo"</code></td>
 </tr>
 <tr class="even">
 <td>Multi-element vector</td>
@@ -421,13 +274,12 @@ they are converted back to R types. Types are converted as follows:</p>
 <tr class="odd">
 <td>List of multiple types</td>
 <td>Tuple</td>
-<td><code>list(1L, TRUE, &quot;foo&quot;)</code></td>
+<td><code>list(1L, TRUE, "foo")</code></td>
 </tr>
 <tr class="even">
 <td>Named list</td>
 <td>Dict</td>
-<td><code>list(a = 1L, b = 2.0)</code>,
-<code>dict(x = x_data)</code></td>
+<td><code>list(a = 1L, b = 2.0)</code>, <code>dict(x = x_data)</code></td>
 </tr>
 <tr class="odd">
 <td>Matrix/Array</td>
@@ -437,7 +289,7 @@ they are converted back to R types. Types are converted as follows:</p>
 <tr class="even">
 <td>Data Frame</td>
 <td>Pandas DataFrame</td>
-<td><code>data.frame(x = c(1,2,3), y = c(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;))</code></td>
+<td><code>data.frame(x = c(1,2,3), y = c("a", "b", "c"))</code></td>
 </tr>
 <tr class="odd">
 <td>Function</td>
@@ -456,157 +308,111 @@ they are converted back to R types. Types are converted as follows:</p>
 </tr>
 </tbody>
 </table>
-<p>If a Python object of a custom class is returned then an R reference
-to that object is returned. You can call methods and access properties
-of the object just as if it was an instance of an R reference class.</p>
+<p>If a Python object of a custom class is returned then an R reference to that object is returned. You can call methods and access properties of the object just as if it was an instance of an R reference class.</p>
+</section>
+<section id="importing-modules" class="level2">
+<h2 class="anchored" data-anchor-id="importing-modules">Importing Modules</h2>
+<p>The <code>import()</code> function can be used to import any Python module. For example:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>difflib <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"difflib"</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>difflib<span class="sc">$</span><span class="fu">ndiff</span>(foo, bar)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>filecmp <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"filecmp"</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>filecmp<span class="sc">$</span><span class="fu">cmp</span>(dir1, dir2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="importing-modules" class="section level2">
-<h2>Importing Modules</h2>
-<p>The <code>import()</code> function can be used to import any Python
-module. For example:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>difflib <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">&quot;difflib&quot;</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>difflib<span class="sc">$</span><span class="fu">ndiff</span>(foo, bar)</span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>filecmp <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">&quot;filecmp&quot;</span>)</span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>filecmp<span class="sc">$</span><span class="fu">cmp</span>(dir1, dir2)</span></code></pre></div>
-<p>The <code>import_main()</code> and <code>import_builtins()</code>
-functions give you access to the main module where code is executed by
-default and the collection of built in Python functions. For
-example:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>main <span class="ot">&lt;-</span> <span class="fu">import_main</span>()</span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>builtins <span class="ot">&lt;-</span> <span class="fu">import_builtins</span>()</span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>builtins<span class="sc">$</span><span class="fu">print</span>(<span class="st">&#39;foo&#39;</span>)</span></code></pre></div>
-<p>The main module is generally useful if you have executed Python code
-from a file or string and want to get access to its results (see the
-section below for more details).</p>
+<p>The <code>import_main()</code> and <code>import_builtins()</code> functions give you access to the main module where code is executed by default and the collection of built in Python functions. For example:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>main <span class="ot">&lt;-</span> <span class="fu">import_main</span>()</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>builtins <span class="ot">&lt;-</span> <span class="fu">import_builtins</span>()</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>builtins<span class="sc">$</span><span class="fu">print</span>(<span class="st">'foo'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="sourcing-scripts" class="section level2">
-<h2>Sourcing Scripts</h2>
-<p>The <code>source_python()</code> function will source a Python script
-and make the objects it creates available within an R environment (by
-default the calling environment). For example, consider the following
-Python script:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="kw">def</span> add(x, y):</span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>  <span class="cf">return</span> x <span class="op">+</span> y</span></code></pre></div>
-<p>We source it using the <code>source_python()</code> function and then
-can call the <code>add()</code> function directly from R:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">source_python</span>(<span class="st">&#39;add.py&#39;</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="fu">add</span>(<span class="dv">5</span>, <span class="dv">10</span>)</span></code></pre></div>
+<p>The main module is generally useful if you have executed Python code from a file or string and want to get access to its results (see the section below for more details).</p>
+</section>
+<section id="sourcing-scripts" class="level2">
+<h2 class="anchored" data-anchor-id="sourcing-scripts">Sourcing Scripts</h2>
+<p>The <code>source_python()</code> function will source a Python script and make the objects it creates available within an R environment (by default the calling environment). For example, consider the following Python script:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> add(x, y):</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> x <span class="op">+</span> y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We source it using the <code>source_python()</code> function and then can call the <code>add()</code> function directly from R:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source_python</span>(<span class="st">'add.py'</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">add</span>(<span class="dv">5</span>, <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <pre><code>[1] 15</code></pre>
+</section>
+<section id="executing-code" class="level2">
+<h2 class="anchored" data-anchor-id="executing-code">Executing Code</h2>
+<p>You can execute Python code within the main module using the <code>py_run_file</code> and <code>py_run_string</code> functions. You can then access any objects created using the <code>py</code> object exported by reticulate:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reticulate)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">py_run_file</span>(<span class="st">"script.py"</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="fu">py_run_string</span>(<span class="st">"x = 10"</span>)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co"># access the python main module via the 'py' object</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>py<span class="sc">$</span>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="executing-code" class="section level2">
-<h2>Executing Code</h2>
-<p>You can execute Python code within the main module using the
-<code>py_run_file</code> and <code>py_run_string</code> functions. You
-can then access any objects created using the <code>py</code> object
-exported by reticulate:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">library</span>(reticulate)</span>
-<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a></span>
-<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="fu">py_run_file</span>(<span class="st">&quot;script.py&quot;</span>)</span>
-<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a></span>
-<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="fu">py_run_string</span>(<span class="st">&quot;x = 10&quot;</span>)</span>
-<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a></span>
-<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="co"># access the python main module via the &#39;py&#39; object</span></span>
-<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a>py<span class="sc">$</span>x</span></code></pre></div>
+</section>
+<section id="object-conversion" class="level2">
+<h2 class="anchored" data-anchor-id="object-conversion">Object Conversion</h2>
+<p>By default when Python objects are returned to R they are converted to their equivalent R types. However, if you’d rather make conversion from Python to R explicit and deal in native Python objects by default you can pass <code>convert = FALSE</code> to the <code>import</code> function. In this case Python to R conversion will be disabled for the module returned from <code>import</code>. For example:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import numpy and specify no automatic Python to R conversion</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>np <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"numpy"</span>, <span class="at">convert =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># do some array manipulations with NumPy</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> np<span class="sc">$</span><span class="fu">array</span>(<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>))</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>sum <span class="ot">&lt;-</span> a<span class="sc">$</span><span class="fu">cumsum</span>()</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="co"># convert to R explicitly at the end</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="fu">py_to_r</span>(sum)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="object-conversion" class="section level2">
-<h2>Object Conversion</h2>
-<p>By default when Python objects are returned to R they are converted
-to their equivalent R types. However, if you’d rather make conversion
-from Python to R explicit and deal in native Python objects by default
-you can pass <code>convert = FALSE</code> to the <code>import</code>
-function. In this case Python to R conversion will be disabled for the
-module returned from <code>import</code>. For example:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="co"># import numpy and specify no automatic Python to R conversion</span></span>
-<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>np <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">&quot;numpy&quot;</span>, <span class="at">convert =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a></span>
-<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="co"># do some array manipulations with NumPy</span></span>
-<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>a <span class="ot">&lt;-</span> np<span class="sc">$</span><span class="fu">array</span>(<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>))</span>
-<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>sum <span class="ot">&lt;-</span> a<span class="sc">$</span><span class="fu">cumsum</span>()</span>
-<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a></span>
-<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a><span class="co"># convert to R explicitly at the end</span></span>
-<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a><span class="fu">py_to_r</span>(sum)</span></code></pre></div>
-<p>As illustrated above, if you need access to an R object at end of
-your computations you can call the <code>py_to_r()</code> function
-explicitly.</p>
-</div>
-<div id="getting-help" class="section level2">
-<h2>Getting Help</h2>
-<p>You can print documentation on any Python object using the
-<code>py_help()</code> function. For example:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>os <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">&quot;os&quot;</span>)</span>
-<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="fu">py_help</span>(os<span class="sc">$</span>chdir)</span></code></pre></div>
-</div>
-<div id="lists-tuples-and-dictionaries" class="section level2">
-<h2>Lists, Tuples, and Dictionaries</h2>
-<p>The automatic conversion of R types to Python types works well in
-most cases, but occasionally you will need to be more explicit on the R
-side to provide Python the type it expects.</p>
-<p>For example, if a Python API requires a list and you pass a single
-element R vector it will be converted to a Python scalar. To overcome
-this simply use the R <code>list</code> function explicitly:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>foo<span class="sc">$</span><span class="fu">bar</span>(<span class="at">indexes =</span> <span class="fu">list</span>(<span class="dv">42</span><span class="dt">L</span>))</span></code></pre></div>
-<p>Similarly, a Python API might require a <code>tuple</code> rather
-than a list. In that case you can use the <code>tuple()</code>
-function:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">tuple</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;c&quot;</span>)</span></code></pre></div>
-<p>R named lists are converted to Python dictionaries however you can
-also explicitly create a Python dictionary using the <code>dict()</code>
-function:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">dict</span>(<span class="at">foo =</span> <span class="st">&quot;bar&quot;</span>, <span class="at">index =</span> <span class="dv">42</span><span class="dt">L</span>)</span></code></pre></div>
-<p>This might be useful if you need to pass a dictionary that uses a
-more complex object (as opposed to a string) as its key.</p>
-</div>
-<div id="numeric-types-and-indexes" class="section level2">
-<h2>Numeric Types and Indexes</h2>
-<p>R and Python have different default numeric types. If you write
-<code>42</code> in R it is considered a floating point number whereas
-<code>42</code> in Python is considered an integer.</p>
-<p>This means that when a Python API expects an integer, you need to be
-sure to use the <code>L</code> suffix within R. For example, if the
-<code>foo</code> function requires an integer as its <code>index</code>
-argument you would do this:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>foo<span class="sc">$</span><span class="fu">bar</span>(<span class="at">index =</span> <span class="dv">42</span><span class="dt">L</span>)</span></code></pre></div>
-<p>Python collections are addressed using 0-based indices rather than
-the 1-based indices you might be familiar with from R. So to address the
-first item of an array in R you would write:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>items[[<span class="dv">1</span>]]</span></code></pre></div>
-<p>Whereas if you are calling a method in Python via reticulate that
-takes an index you would write this to address the first item:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>items<span class="sc">$</span><span class="fu">get</span>(<span class="dv">0</span><span class="dt">L</span>)</span></code></pre></div>
-<p>Note the use of the 0-based index as well as the <code>L</code> to
-indicate t that the value is an integer.</p>
-</div>
-<div id="arrays" class="section level2">
-<h2>Arrays</h2>
+<p>As illustrated above, if you need access to an R object at end of your computations you can call the <code>py_to_r()</code> function explicitly.</p>
+</section>
+<section id="getting-help" class="level2">
+<h2 class="anchored" data-anchor-id="getting-help">Getting Help</h2>
+<p>You can print documentation on any Python object using the <code>py_help()</code> function. For example:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>os <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"os"</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">py_help</span>(os<span class="sc">$</span>chdir)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="lists-tuples-and-dictionaries" class="level2">
+<h2 class="anchored" data-anchor-id="lists-tuples-and-dictionaries">Lists, Tuples, and Dictionaries</h2>
+<p>The automatic conversion of R types to Python types works well in most cases, but occasionally you will need to be more explicit on the R side to provide Python the type it expects.</p>
+<p>For example, if a Python API requires a list and you pass a single element R vector it will be converted to a Python scalar. To overcome this simply use the R <code>list</code> function explicitly:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>foo<span class="sc">$</span><span class="fu">bar</span>(<span class="at">indexes =</span> <span class="fu">list</span>(<span class="dv">42</span>L))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Similarly, a Python API might require a <code>tuple</code> rather than a list. In that case you can use the <code>tuple()</code> function:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tuple</span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>R named lists are converted to Python dictionaries however you can also explicitly create a Python dictionary using the <code>dict()</code> function:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dict</span>(<span class="at">foo =</span> <span class="st">"bar"</span>, <span class="at">index =</span> <span class="dv">42</span>L)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This might be useful if you need to pass a dictionary that uses a more complex object (as opposed to a string) as its key.</p>
+</section>
+<section id="numeric-types-and-indexes" class="level2">
+<h2 class="anchored" data-anchor-id="numeric-types-and-indexes">Numeric Types and Indexes</h2>
+<p>R and Python have different default numeric types. If you write <code>42</code> in R it is considered a floating point number whereas <code>42</code> in Python is considered an integer.</p>
+<p>This means that when a Python API expects an integer, you need to be sure to use the <code>L</code> suffix within R. For example, if the <code>foo</code> function requires an integer as its <code>index</code> argument you would do this:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>foo<span class="sc">$</span><span class="fu">bar</span>(<span class="at">index =</span> <span class="dv">42</span>L)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Python collections are addressed using 0-based indices rather than the 1-based indices you might be familiar with from R. So to address the first item of an array in R you would write:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>items[[<span class="dv">1</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Whereas if you are calling a method in Python via reticulate that takes an index you would write this to address the first item:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>items<span class="sc">$</span><span class="fu">get</span>(<span class="dv">0</span>L)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Note the use of the 0-based index as well as the <code>L</code> to indicate t that the value is an integer.</p>
+</section>
+<section id="arrays" class="level2">
+<h2 class="anchored" data-anchor-id="arrays">Arrays</h2>
 <p>R matrices and arrays are converted automatically to and from <a href="https://numpy.org/">NumPy</a> arrays.</p>
-<p>When converting from R to NumPy, the NumPy array is mapped directly
-to the underlying memory of the R array (no copy is made). In this case,
-the NumPy array uses a column-based in memory layout that is compatible
-with R (i.e. Fortran style rather than C style). When converting from
-NumPy to R, R receives a column-ordered copy of the NumPy array.</p>
-<p>You can also manually convert R arrays to NumPy using the
-<code>np_array()</code> function. For example, you might do this if you
-needed to create a NumPy array with C rather than Fortran style
-in-memory layout (for higher performance in row-oriented computations)
-or if you wanted to control the data type of the NumPy array more
-explicitly. Here are some example uses of <code>np_array()</code>:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">np_array</span>(<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>), <span class="at">dtype =</span> <span class="st">&quot;float16&quot;</span>)</span>
-<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">np_array</span>(<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>), <span class="at">order =</span> <span class="st">&quot;C&quot;</span>)</span></code></pre></div>
-<p>Reasoning about arrays which use distinct in-memory orders can be
-tricky. The <a href="arrays.html">Arrays in R and Python</a> article
-provides additional details.</p>
-<p>Also, always remember that when calling NumPy methods array indices
-are 0 rather than 1 based and require the <code>L</code> suffix to
-indicate they are integers.</p>
-</div>
-<div id="data-frames" class="section level2">
-<h2>Data Frames</h2>
-<p>R data frames can be automatically converted to and from <a href="https://pandas.pydata.org/">Pandas</a> DataFrames. By default,
-columns are converted using the same rules governing R array &lt;-&gt;
-NumPy array conversion, but a couple extensions are provided:</p>
-<table>
+<p>When converting from R to NumPy, the NumPy array is mapped directly to the underlying memory of the R array (no copy is made). In this case, the NumPy array uses a column-based in memory layout that is compatible with R (i.e.&nbsp;Fortran style rather than C style). When converting from NumPy to R, R receives a column-ordered copy of the NumPy array.</p>
+<p>You can also manually convert R arrays to NumPy using the <code>np_array()</code> function. For example, you might do this if you needed to create a NumPy array with C rather than Fortran style in-memory layout (for higher performance in row-oriented computations) or if you wanted to control the data type of the NumPy array more explicitly. Here are some example uses of <code>np_array()</code>:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">np_array</span>(<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>), <span class="at">dtype =</span> <span class="st">"float16"</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">np_array</span>(<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>), <span class="at">order =</span> <span class="st">"C"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Reasoning about arrays which use distinct in-memory orders can be tricky. The <a href="arrays.html">Arrays in R and Python</a> article provides additional details.</p>
+<p>Also, always remember that when calling NumPy methods array indices are 0 rather than 1 based and require the <code>L</code> suffix to indicate they are integers.</p>
+</section>
+<section id="data-frames" class="level2">
+<h2 class="anchored" data-anchor-id="data-frames">Data Frames</h2>
+<p>R data frames can be automatically converted to and from <a href="https://pandas.pydata.org/">Pandas</a> DataFrames. By default, columns are converted using the same rules governing R array &lt;-&gt; NumPy array conversion, but a couple extensions are provided:</p>
+<table class="table">
 <thead>
 <tr class="header">
 <th>R</th>
@@ -624,46 +430,31 @@ NumPy array conversion, but a couple extensions are provided:</p>
 </tr>
 </tbody>
 </table>
-<p>If the R data frame has row names, the generated Pandas DataFrame
-will be re-indexed using those row names (and vice versa). Special
-handling is also available for a <code>DatetimeIndex</code> associated
-with a Pandas DataFrame; however, because R only supports character
-vectors for row names they are converted to character first.</p>
-<div id="using-pandas-nullable-data-types" class="section level3">
-<h3>Using Pandas nullable data types</h3>
-<p>Pandas has experimental support for nullable data types. Those data
-types have built-in support for missing values, represented by
-<code>pd.NA</code> and using them allows us to better represent R
-<code>NA</code> values.</p>
-<p>Users can opt-in to use Pandas nullable data types instead of numpy
-arrays by setting the <code>reticulate.pandas_use_nullable_dtypes</code>
-to <code>TRUE</code>. For example:</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a>  <span class="at">int =</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>),</span>
-<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a>  <span class="at">num =</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="fu">rnorm</span>(<span class="dv">4</span>)),</span>
-<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a>  <span class="at">lgl =</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="fu">rep</span>(<span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>), <span class="dv">2</span>)),</span>
-<span id="cb20-5"><a href="#cb20-5" tabindex="-1"></a>  <span class="at">string =</span> <span class="fu">c</span>(<span class="cn">NA</span>, letters[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>])</span>
-<span id="cb20-6"><a href="#cb20-6" tabindex="-1"></a>)</span>
-<span id="cb20-7"><a href="#cb20-7" tabindex="-1"></a><span class="fu">options</span>(<span class="at">reticulate.pandas_use_nullable_data_types =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb20-8"><a href="#cb20-8" tabindex="-1"></a><span class="fu">r_to_py</span>(df)</span>
-<span id="cb20-9"><a href="#cb20-9" tabindex="-1"></a><span class="co">#&gt;     int       num    lgl string</span></span>
-<span id="cb20-10"><a href="#cb20-10" tabindex="-1"></a><span class="co">#&gt; 0  &lt;NA&gt;      &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;</span></span>
-<span id="cb20-11"><a href="#cb20-11" tabindex="-1"></a><span class="co">#&gt; 1     1 -0.697855   True      a</span></span>
-<span id="cb20-12"><a href="#cb20-12" tabindex="-1"></a><span class="co">#&gt; 2     2 -0.253042  False      b</span></span>
-<span id="cb20-13"><a href="#cb20-13" tabindex="-1"></a><span class="co">#&gt; 3     3  0.385421   True      c</span></span>
-<span id="cb20-14"><a href="#cb20-14" tabindex="-1"></a><span class="co">#&gt; 4     4  0.519933  False      d</span></span></code></pre></div>
-</div>
-</div>
-<div id="sparse-matrices" class="section level2">
-<h2>Sparse Matrices</h2>
-<p>Sparse matrices created by <a href="https://CRAN.R-project.org/package=Matrix">Matrix R package</a>
-can be converted <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.csc_matrix.html">Scipy
-CSC matrix</a>, and vice versa. This is often useful when you want to
-pass sparse matrices to Python functions that accepts Scipy CSC matrix
-to take advantage of this format, such as efficient column slicing and
-fast matrix vector products.</p>
-<p>For example, we first create a sparse matrix using
-<code>Matrix::sparseMatrix()</code>:</p>
+<p>If the R data frame has row names, the generated Pandas DataFrame will be re-indexed using those row names (and vice versa). Special handling is also available for a <code>DatetimeIndex</code> associated with a Pandas DataFrame; however, because R only supports character vectors for row names they are converted to character first.</p>
+<section id="using-pandas-nullable-data-types" class="level3">
+<h3 class="anchored" data-anchor-id="using-pandas-nullable-data-types">Using Pandas nullable data types</h3>
+<p>Pandas has experimental support for nullable data types. Those data types have built-in support for missing values, represented by <code>pd.NA</code> and using them allows us to better represent R <code>NA</code> values.</p>
+<p>Users can opt-in to use Pandas nullable data types instead of numpy arrays by setting the <code>reticulate.pandas_use_nullable_dtypes</code> to <code>TRUE</code>. For example:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">int =</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>),</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">num =</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="fu">rnorm</span>(<span class="dv">4</span>)),</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">lgl =</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="fu">rep</span>(<span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>), <span class="dv">2</span>)),</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">string =</span> <span class="fu">c</span>(<span class="cn">NA</span>, letters[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>])</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">reticulate.pandas_use_nullable_data_types =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="fu">r_to_py</span>(df)</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     int       num    lgl string</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 0  &lt;NA&gt;      &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1     1 -0.697855   True      a</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2     2 -0.253042  False      b</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3     3  0.385421   True      c</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4     4  0.519933  False      d</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="sparse-matrices" class="level2">
+<h2 class="anchored" data-anchor-id="sparse-matrices">Sparse Matrices</h2>
+<p>Sparse matrices created by <a href="https://CRAN.R-project.org/package=Matrix">Matrix R package</a> can be converted <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.csc_matrix.html">Scipy CSC matrix</a>, and vice versa. This is often useful when you want to pass sparse matrices to Python functions that accepts Scipy CSC matrix to take advantage of this format, such as efficient column slicing and fast matrix vector products.</p>
+<p>For example, we first create a sparse matrix using <code>Matrix::sparseMatrix()</code>:</p>
 <pre><code>library(Matrix)
 N &lt;- 5
 dgc_matrix &lt;- sparseMatrix(
@@ -673,15 +464,14 @@ dgc_matrix &lt;- sparseMatrix(
   dims = c(N, N))</code></pre>
 <p>The sparse matrix looks like this:</p>
 <pre><code>&gt; dgc_matrix
-5 x 5 sparse Matrix of class &quot;dgCMatrix&quot;
+5 x 5 sparse Matrix of class "dgCMatrix"
                                                         
 [1,] 0.2264952 .          .          .         .        
 [2,] .         .          .          .         0.3927282
 [3,] .         .          .          0.9215908 .        
 [4,] .         .          0.01777771 .         .        
 [5,] .         0.05885743 .          .         . </code></pre>
-<p>Let’s convert it to Scipy CSC matrix using
-<code>r_to_py()</code>:</p>
+<p>Let’s convert it to Scipy CSC matrix using <code>r_to_py()</code>:</p>
 <pre><code>&gt; csc_matrix &lt;- r_to_py(x)
 &gt; csc_matrix
   (0, 0)    0.226495201467
@@ -689,173 +479,129 @@ dgc_matrix &lt;- sparseMatrix(
   (3, 2)    0.0177777127828
   (2, 3)    0.921590822982
   (1, 4)    0.392728160601</code></pre>
-<p>Note that the right-hand side contains the non-zero entries of the
-matrix while the left-hand side represents their locations in the
-matrix.</p>
-<p>We can also use <code>py_to_r()</code> to convert the CSC matrix back
-to <code>Matrix::dgCMatrix</code> representation that can then be
-manipulated easily in R which is the same as the original sparse matrix
-that we created earlier using <code>Matrix::sparseMatrix()</code>:</p>
+<p>Note that the right-hand side contains the non-zero entries of the matrix while the left-hand side represents their locations in the matrix.</p>
+<p>We can also use <code>py_to_r()</code> to convert the CSC matrix back to <code>Matrix::dgCMatrix</code> representation that can then be manipulated easily in R which is the same as the original sparse matrix that we created earlier using <code>Matrix::sparseMatrix()</code>:</p>
 <pre><code>&gt; py_to_r(csc_matrix)
-5 x 5 sparse Matrix of class &quot;dgCMatrix&quot;
+5 x 5 sparse Matrix of class "dgCMatrix"
                                                         
 [1,] 0.2264952 .          .          .         .        
 [2,] .         .          .          .         0.3927282
 [3,] .         .          .          0.9215908 .        
 [4,] .         .          0.01777771 .         .        
 [5,] .         0.05885743 .          .         .        </code></pre>
+</section>
+<section id="with-contexts" class="level2">
+<h2 class="anchored" data-anchor-id="with-contexts">With Contexts</h2>
+<p>The R <code>with</code> generic function can be used to interact with Python context manager objects (in Python you use the <code>with</code> keyword to do the same). For example:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>py <span class="ot">&lt;-</span> <span class="fu">import_builtins</span>()</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(py<span class="sc">$</span><span class="fu">open</span>(<span class="st">"output.txt"</span>, <span class="st">"w"</span>) <span class="sc">%as%</span> file, {</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  file<span class="sc">$</span><span class="fu">write</span>(<span class="st">"Hello, there!"</span>)</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="with-contexts" class="section level2">
-<h2>With Contexts</h2>
-<p>The R <code>with</code> generic function can be used to interact with
-Python context manager objects (in Python you use the <code>with</code>
-keyword to do the same). For example:</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a>py <span class="ot">&lt;-</span> <span class="fu">import_builtins</span>()</span>
-<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a><span class="fu">with</span>(py<span class="sc">$</span><span class="fu">open</span>(<span class="st">&quot;output.txt&quot;</span>, <span class="st">&quot;w&quot;</span>) <span class="sc">%as%</span> file, {</span>
-<span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a>  file<span class="sc">$</span><span class="fu">write</span>(<span class="st">&quot;Hello, there!&quot;</span>)</span>
-<span id="cb25-4"><a href="#cb25-4" tabindex="-1"></a>})</span></code></pre></div>
-<p>This example opens a file and ensures that it is automatically closed
-at the end of the with block. Note the use of the <code>%as%</code>
-operator to alias the object created by the context manager.</p>
+<p>This example opens a file and ensures that it is automatically closed at the end of the with block. Note the use of the <code>%as%</code> operator to alias the object created by the context manager.</p>
+</section>
+<section id="iterators" class="level2">
+<h2 class="anchored" data-anchor-id="iterators">Iterators</h2>
+<p>If a Python API returns an iterator or a generator, you can interact with it using the <code>iterate()</code> function. The <code>iterate()</code> function can be used to apply an R function to each item yielded by the iterator:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">iterate</span>(iter, print)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="iterators" class="section level2">
-<h2>Iterators</h2>
-<p>If a Python API returns an iterator or a generator, you can interact
-with it using the <code>iterate()</code> function. The
-<code>iterate()</code> function can be used to apply an R function to
-each item yielded by the iterator:</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="fu">iterate</span>(iter, print)</span></code></pre></div>
-<p>If you don’t pass a function to <code>iterate</code> the results will
-be collected into an R vector:</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">iterate</span>(iter)</span></code></pre></div>
-<p>Note that the <code>Iterators</code> will be drained of their values
-by <code>iterate()</code>:</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">iterate</span>(iter) <span class="co"># results are not empty</span></span>
-<span id="cb28-2"><a href="#cb28-2" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">iterate</span>(iter) <span class="co"># results are empty since items have already been drained</span></span></code></pre></div>
-<div id="element-level-iteration" class="section level3">
-<h3>Element Level Iteration</h3>
-<p>You can also iterate on an element-by-element basis using the
-<code>iter_next()</code> function. For example:</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a><span class="cf">while</span> (<span class="cn">TRUE</span>) {</span>
-<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a>  item <span class="ot">&lt;-</span> <span class="fu">iter_next</span>(iter)</span>
-<span id="cb29-3"><a href="#cb29-3" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">is.null</span>(item))</span>
-<span id="cb29-4"><a href="#cb29-4" tabindex="-1"></a>    <span class="cf">break</span></span>
-<span id="cb29-5"><a href="#cb29-5" tabindex="-1"></a>}</span></code></pre></div>
-<p>By default <code>iter_next()</code> will return <code>NULL</code>
-when the iteration is complete but you can provide a custom
-<code>completed</code> value it will be returned instead. For
-example:</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a><span class="cf">while</span> (<span class="cn">TRUE</span>) {</span>
-<span id="cb30-2"><a href="#cb30-2" tabindex="-1"></a>  item <span class="ot">&lt;-</span> <span class="fu">iter_next</span>(iter, <span class="at">completed =</span> <span class="cn">NA</span>)</span>
-<span id="cb30-3"><a href="#cb30-3" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">is.na</span>(item))</span>
-<span id="cb30-4"><a href="#cb30-4" tabindex="-1"></a>    <span class="cf">break</span></span>
-<span id="cb30-5"><a href="#cb30-5" tabindex="-1"></a>}</span></code></pre></div>
-<p>Note that some iterators/generators in Python are infinite. In that
-case the caller will need custom logic to determine when to terminate
-the loop.</p>
+<p>If you don’t pass a function to <code>iterate</code> the results will be collected into an R vector:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">iterate</span>(iter)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="generators" class="section level3">
-<h3>Generators</h3>
-<p>Python <a href="https://wiki.python.org/moin/Generators">generators</a> are
-functions that implement the Python iterator protocol. Similarly, the
-reticulate <code>generator()</code> function enables you to create a
-Python iterator from an R function.</p>
-<p>In Python, generators produce values using the <code>yield</code>
-keyword. In R, values are simply returned from the function. One benefit
-of the <code>yield</code> keyword is that it enables successive
-iterations to use the state of previous iterations. In R, this can be
-done by returning a function that mutates its enclosing environment via
-the &lt;&lt;- operator. For example:</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a><span class="co"># define a generator function</span></span>
-<span id="cb31-2"><a href="#cb31-2" tabindex="-1"></a>sequence_generator <span class="ot">&lt;-</span><span class="cf">function</span>(start) {</span>
-<span id="cb31-3"><a href="#cb31-3" tabindex="-1"></a>  value <span class="ot">&lt;-</span> start</span>
-<span id="cb31-4"><a href="#cb31-4" tabindex="-1"></a>  <span class="cf">function</span>() {</span>
-<span id="cb31-5"><a href="#cb31-5" tabindex="-1"></a>    value <span class="ot">&lt;&lt;-</span> value <span class="sc">+</span> <span class="dv">1</span></span>
-<span id="cb31-6"><a href="#cb31-6" tabindex="-1"></a>    value</span>
-<span id="cb31-7"><a href="#cb31-7" tabindex="-1"></a>  }</span>
-<span id="cb31-8"><a href="#cb31-8" tabindex="-1"></a>}</span>
-<span id="cb31-9"><a href="#cb31-9" tabindex="-1"></a></span>
-<span id="cb31-10"><a href="#cb31-10" tabindex="-1"></a><span class="co"># convert the function to a python iterator</span></span>
-<span id="cb31-11"><a href="#cb31-11" tabindex="-1"></a>iter <span class="ot">&lt;-</span> <span class="fu">py_iterator</span>(<span class="fu">sequence_generator</span>(<span class="dv">10</span>))</span></code></pre></div>
-<p>If you want to indicate the end of the iteration, return
-<code>NULL</code> from the function:</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a>sequence_generator <span class="ot">&lt;-</span><span class="cf">function</span>(start) {</span>
-<span id="cb32-2"><a href="#cb32-2" tabindex="-1"></a>  value <span class="ot">&lt;-</span> start</span>
-<span id="cb32-3"><a href="#cb32-3" tabindex="-1"></a>  <span class="cf">function</span>() {</span>
-<span id="cb32-4"><a href="#cb32-4" tabindex="-1"></a>    value <span class="ot">&lt;&lt;-</span> value <span class="sc">+</span> <span class="dv">1</span></span>
-<span id="cb32-5"><a href="#cb32-5" tabindex="-1"></a>    <span class="cf">if</span> (value <span class="sc">&lt;</span> <span class="dv">100</span>)</span>
-<span id="cb32-6"><a href="#cb32-6" tabindex="-1"></a>      value</span>
-<span id="cb32-7"><a href="#cb32-7" tabindex="-1"></a>    <span class="cf">else</span></span>
-<span id="cb32-8"><a href="#cb32-8" tabindex="-1"></a>      <span class="cn">NULL</span></span>
-<span id="cb32-9"><a href="#cb32-9" tabindex="-1"></a>  }</span>
-<span id="cb32-10"><a href="#cb32-10" tabindex="-1"></a>}</span></code></pre></div>
-<p>Note that you can change the value that indicates the end of the
-iteration using the <code>completed</code> parameter
-(e.g. <code>py_iterator(func, completed = NA)</code>).</p>
+<p>Note that the <code>Iterators</code> will be drained of their values by <code>iterate()</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">iterate</span>(iter) <span class="co"># results are not empty</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">iterate</span>(iter) <span class="co"># results are empty since items have already been drained</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<section id="element-level-iteration" class="level3">
+<h3 class="anchored" data-anchor-id="element-level-iteration">Element Level Iteration</h3>
+<p>You can also iterate on an element-by-element basis using the <code>iter_next()</code> function. For example:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> (<span class="cn">TRUE</span>) {</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  item <span class="ot">&lt;-</span> <span class="fu">iter_next</span>(iter)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">is.null</span>(item))</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">break</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="functions" class="section level2">
-<h2>Functions</h2>
-<div id="signatures" class="section level3">
-<h3>Signatures</h3>
-<p>By default R functions are converted to Python with a generic
-signature (<code>function(...)</code>), where there’s neither keyword
-argument nor default values for arguments.</p>
-<p>For example, below we apply <code>r_to_py()</code> to an R function
-and then we use <a href="https://docs.python.org/3/library/inspect.html">inspect Python
-module</a> to get the converted function’s argument spec. You can see
-that the signature of the wrapped function looks different than the
-original R function’s signature.</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a><span class="sc">&gt;</span> inspect <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">&quot;inspect&quot;</span>)</span>
-<span id="cb33-2"><a href="#cb33-2" tabindex="-1"></a><span class="sc">&gt;</span> converted_func <span class="ot">&lt;-</span> <span class="fu">r_to_py</span>(<span class="cf">function</span>(a, <span class="at">b =</span> <span class="fl">1.5</span>) {})</span>
-<span id="cb33-3"><a href="#cb33-3" tabindex="-1"></a><span class="sc">&gt;</span> inspect<span class="sc">$</span><span class="fu">getargspec</span>(converted_func)</span>
-<span id="cb33-4"><a href="#cb33-4" tabindex="-1"></a><span class="fu">ArgSpec</span>(<span class="at">args=</span>[], <span class="at">varargs=</span><span class="st">&#39;args&#39;</span>, <span class="at">keywords=</span><span class="st">&#39;kwargs&#39;</span>, <span class="at">defaults=</span>None)</span></code></pre></div>
-<p>This default conversion typically works fine, however some Python
-libraries have strict checking on the function signatures of user
-provided callbacks. In these cases the generic
-<code>function(...)</code> signature will fail this checking.</p>
-<p>For these cases you can use <code>py_func()</code> to wrap the R
-function so that the wrapped function has exactly the same signature as
-that of the original R function, e.g. one argument <code>a</code>
-without default value and another argument <code>b</code> with default
-value 1.5.</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" tabindex="-1"></a><span class="sc">&gt;</span> wrapped_func <span class="ot">&lt;-</span> <span class="fu">py_func</span>(<span class="cf">function</span>(a, <span class="at">b =</span> <span class="fl">1.5</span>) {})</span>
-<span id="cb34-2"><a href="#cb34-2" tabindex="-1"></a><span class="sc">&gt;</span> inspect<span class="sc">$</span><span class="fu">getargspec</span>(wrapped_func)</span>
-<span id="cb34-3"><a href="#cb34-3" tabindex="-1"></a><span class="fu">ArgSpec</span>(<span class="at">args=</span>[<span class="st">&#39;a&#39;</span>, <span class="st">&#39;b&#39;</span>], <span class="at">varargs=</span>None, <span class="at">keywords=</span>None, <span class="at">defaults=</span>(<span class="fl">1.5</span>,))</span></code></pre></div>
-<p>Note that the signature of the R function must not contain esoteric
-Python-incompatible constructs. For example, we cannot have R function
-with signature like <code>function(a = 1, b)</code> since Python
-function requires that arguments without default values appear before
-arguments with default values.</p>
+<p>By default <code>iter_next()</code> will return <code>NULL</code> when the iteration is complete but you can provide a custom <code>completed</code> value it will be returned instead. For example:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> (<span class="cn">TRUE</span>) {</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  item <span class="ot">&lt;-</span> <span class="fu">iter_next</span>(iter, <span class="at">completed =</span> <span class="cn">NA</span>)</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">is.na</span>(item))</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">break</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="background-threads" class="section level3">
-<h3>Background Threads</h3>
-<p>In some cases Python libraries will invoke callbacks on a Python
-background thread. Since R code must run on the main thread, this won’t
-work by default when you pass an R function as a callback.</p>
-<p>To work around this, you can use <code>py_main_thread_func()</code>,
-which will provide a special wrapper for your R function that ensures it
-will only be called on the main thread.</p>
+<p>Note that some iterators/generators in Python are infinite. In that case the caller will need custom logic to determine when to terminate the loop.</p>
+</section>
+<section id="generators" class="level3">
+<h3 class="anchored" data-anchor-id="generators">Generators</h3>
+<p>Python <a href="https://wiki.python.org/moin/Generators">generators</a> are functions that implement the Python iterator protocol. Similarly, the reticulate <code>generator()</code> function enables you to create a Python iterator from an R function.</p>
+<p>In Python, generators produce values using the <code>yield</code> keyword. In R, values are simply returned from the function. One benefit of the <code>yield</code> keyword is that it enables successive iterations to use the state of previous iterations. In R, this can be done by returning a function that mutates its enclosing environment via the &lt;&lt;- operator. For example:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># define a generator function</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>sequence_generator <span class="ot">&lt;-</span><span class="cf">function</span>(start) {</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  value <span class="ot">&lt;-</span> start</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">function</span>() {</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>    value <span class="ot">&lt;&lt;-</span> value <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>    value</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a><span class="co"># convert the function to a python iterator</span></span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>iter <span class="ot">&lt;-</span> <span class="fu">py_iterator</span>(<span class="fu">sequence_generator</span>(<span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>If you want to indicate the end of the iteration, return <code>NULL</code> from the function:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>sequence_generator <span class="ot">&lt;-</span><span class="cf">function</span>(start) {</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  value <span class="ot">&lt;-</span> start</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">function</span>() {</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    value <span class="ot">&lt;&lt;-</span> value <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (value <span class="sc">&lt;</span> <span class="dv">100</span>)</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>      value</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>      <span class="cn">NULL</span></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="advanced" class="section level2">
-<h2>Advanced</h2>
-<p>There are several more advanced functions available that are useful
-principally when creating high level R interfaces for Python
-libraries.</p>
-<div id="python-objects" class="section level3">
-<h3>Python Objects</h3>
-<p>Typically interacting with Python objects from R involves using the
-<code>$</code> operator to access whatever properties for functions of
-the object you need. When using the <code>$</code>, Python objects are
-automatically converted to their R equivalents when possible. The
-following functions enable you to interact with Python objects at a
-lower level (e.g. no conversion to R is done unless you explicitly call
-the <code>py_to_r</code> function):</p>
-<table>
+<p>Note that you can change the value that indicates the end of the iteration using the <code>completed</code> parameter (e.g.&nbsp;<code>py_iterator(func, completed = NA)</code>).</p>
+</section>
+</section>
+<section id="functions" class="level2">
+<h2 class="anchored" data-anchor-id="functions">Functions</h2>
+<section id="signatures" class="level3">
+<h3 class="anchored" data-anchor-id="signatures">Signatures</h3>
+<p>By default R functions are converted to Python with a generic signature (<code>function(...)</code>), where there’s neither keyword argument nor default values for arguments.</p>
+<p>For example, below we apply <code>r_to_py()</code> to an R function and then we use <a href="https://docs.python.org/3/library/inspect.html">inspect Python module</a> to get the converted function’s argument spec. You can see that the signature of the wrapped function looks different than the original R function’s signature.</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> inspect <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"inspect"</span>)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> converted_func <span class="ot">&lt;-</span> <span class="fu">r_to_py</span>(<span class="cf">function</span>(a, <span class="at">b =</span> <span class="fl">1.5</span>) {})</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> inspect<span class="sc">$</span><span class="fu">getargspec</span>(converted_func)</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ArgSpec</span>(<span class="at">args=</span>[], <span class="at">varargs=</span><span class="st">'args'</span>, <span class="at">keywords=</span><span class="st">'kwargs'</span>, <span class="at">defaults=</span>None)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This default conversion typically works fine, however some Python libraries have strict checking on the function signatures of user provided callbacks. In these cases the generic <code>function(...)</code> signature will fail this checking.</p>
+<p>For these cases you can use <code>py_func()</code> to wrap the R function so that the wrapped function has exactly the same signature as that of the original R function, e.g.&nbsp;one argument <code>a</code> without default value and another argument <code>b</code> with default value 1.5.</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> wrapped_func <span class="ot">&lt;-</span> <span class="fu">py_func</span>(<span class="cf">function</span>(a, <span class="at">b =</span> <span class="fl">1.5</span>) {})</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> inspect<span class="sc">$</span><span class="fu">getargspec</span>(wrapped_func)</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ArgSpec</span>(<span class="at">args=</span>[<span class="st">'a'</span>, <span class="st">'b'</span>], <span class="at">varargs=</span>None, <span class="at">keywords=</span>None, <span class="at">defaults=</span>(<span class="fl">1.5</span>,))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Note that the signature of the R function must not contain esoteric Python-incompatible constructs. For example, we cannot have R function with signature like <code>function(a = 1, b)</code> since Python function requires that arguments without default values appear before arguments with default values.</p>
+</section>
+<section id="background-threads" class="level3">
+<h3 class="anchored" data-anchor-id="background-threads">Background Threads</h3>
+<p>In some cases Python libraries will invoke callbacks on a Python background thread. Since R code must run on the main thread, this won’t work by default when you pass an R function as a callback.</p>
+<p>To work around this, you can use <code>py_main_thread_func()</code>, which will provide a special wrapper for your R function that ensures it will only be called on the main thread.</p>
+</section>
+</section>
+<section id="advanced" class="level2">
+<h2 class="anchored" data-anchor-id="advanced">Advanced</h2>
+<p>There are several more advanced functions available that are useful principally when creating high level R interfaces for Python libraries.</p>
+<section id="python-objects" class="level3">
+<h3 class="anchored" data-anchor-id="python-objects">Python Objects</h3>
+<p>Typically interacting with Python objects from R involves using the <code>$</code> operator to access whatever properties for functions of the object you need. When using the <code>$</code>, Python objects are automatically converted to their R equivalents when possible. The following functions enable you to interact with Python objects at a lower level (e.g.&nbsp;no conversion to R is done unless you explicitly call the <code>py_to_r</code> function):</p>
+<table class="table">
 <colgroup>
-<col width="19%" />
-<col width="80%" />
+<col style="width: 19%">
+<col style="width: 80%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -898,16 +644,14 @@ the <code>py_to_r</code> function):</p>
 </tr>
 </tbody>
 </table>
-</div>
-<div id="pickle" class="section level3">
-<h3>Pickle</h3>
-<p>You can save and load Python objects (via pickle) using the
-<code>py_save_object</code> and <code>py_load_object</code>
-functions:</p>
-<table>
+</section>
+<section id="pickle" class="level3">
+<h3 class="anchored" data-anchor-id="pickle">Pickle</h3>
+<p>You can save and load Python objects (via pickle) using the <code>py_save_object</code> and <code>py_load_object</code> functions:</p>
+<table class="table">
 <colgroup>
-<col width="19%" />
-<col width="80%" />
+<col style="width: 19%">
+<col style="width: 80%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -926,15 +670,14 @@ functions:</p>
 </tr>
 </tbody>
 </table>
-</div>
-<div id="configuration" class="section level3">
-<h3>Configuration</h3>
-<p>The following functions enable you to query for information about the
-Python configuration available on the current system.</p>
-<table>
+</section>
+<section id="configuration" class="level3">
+<h3 class="anchored" data-anchor-id="configuration">Configuration</h3>
+<p>The following functions enable you to query for information about the Python configuration available on the current system.</p>
+<table class="table">
 <colgroup>
-<col width="19%" />
-<col width="80%" />
+<col style="width: 19%">
+<col style="width: 80%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -949,8 +692,7 @@ Python configuration available on the current system.</p>
 </tr>
 <tr class="even">
 <td><code>py_numpy_available()</code></td>
-<td>Check whether the R interface to NumPy is available (requires NumPy
-&gt;= 1.6)</td>
+<td>Check whether the R interface to NumPy is available (requires NumPy &gt;= 1.6)</td>
 </tr>
 <tr class="odd">
 <td><code>py_module_available()</code></td>
@@ -962,15 +704,14 @@ Python configuration available on the current system.</p>
 </tr>
 </tbody>
 </table>
-</div>
-<div id="output-control" class="section level3">
-<h3>Output Control</h3>
-<p>These functions enable you to capture or suppress output from
-Python:</p>
-<table>
+</section>
+<section id="output-control" class="level3">
+<h3 class="anchored" data-anchor-id="output-control">Output Control</h3>
+<p>These functions enable you to capture or suppress output from Python:</p>
+<table class="table">
 <colgroup>
-<col width="19%" />
-<col width="80%" />
+<col style="width: 19%">
+<col style="width: 80%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -981,25 +722,22 @@ Python:</p>
 <tbody>
 <tr class="odd">
 <td><code>py_capture_output()</code></td>
-<td>Capture Python output for the specified expression and return it as
-an R character vector.</td>
+<td>Capture Python output for the specified expression and return it as an R character vector.</td>
 </tr>
 <tr class="even">
 <td><code>py_suppress_warnings()</code></td>
-<td>Execute the specified expression, suppressing the display Python
-warnings.</td>
+<td>Execute the specified expression, suppressing the display Python warnings.</td>
 </tr>
 </tbody>
 </table>
-</div>
-<div id="miscellaneous" class="section level3">
-<h3>Miscellaneous</h3>
-<p>The functions provide miscellaneous other lower-level
-capabilities:</p>
-<table>
+</section>
+<section id="miscellaneous" class="level3">
+<h3 class="anchored" data-anchor-id="miscellaneous">Miscellaneous</h3>
+<p>The functions provide miscellaneous other lower-level capabilities:</p>
+<table class="table">
 <colgroup>
-<col width="19%" />
-<col width="80%" />
+<col style="width: 19%">
+<col style="width: 80%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -1030,42 +768,439 @@ capabilities:</p>
 </tr>
 <tr class="even">
 <td><code>py_validate_xptr()</code></td>
-<td>Check whether a Python object is a null externalptr and throw an
-error if it is.</td>
+<td>Check whether a Python object is a null externalptr and throw an error if it is.</td>
 </tr>
 </tbody>
 </table>
-</div>
-</div>
-<div id="learning-more" class="section level2">
-<h2>Learning More</h2>
-<p>The following articles cover additional aspects of using
-<strong>reticulate</strong>:</p>
+</section>
+</section>
+<section id="learning-more" class="level2">
+<h2 class="anchored" data-anchor-id="learning-more">Learning More</h2>
+<p>The following articles cover additional aspects of using <strong>reticulate</strong>:</p>
 <ul>
 <li><p><a href="r_markdown.html">R Markdown Python Engine</a></p></li>
 <li><p><a href="versions.html">Python Version Configuration</a></p></li>
-<li><p><a href="python_packages.html">Installing Python
-Packages</a></p></li>
-<li><p><a href="package.html">Using reticulate in an R
-Package</a></p></li>
+<li><p><a href="python_packages.html">Installing Python Packages</a></p></li>
+<li><p><a href="package.html">Using reticulate in an R Package</a></p></li>
 <li><p><a href="arrays.html">Arrays in R and Python</a></p></li>
 </ul>
-</div>
 
 
+</section>
 
-<!-- code folding -->
-
-
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
-  (function () {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
-    document.getElementsByTagName("head")[0].appendChild(script);
-  })();
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/swayam-singh123\.github\.io\/Quarto-Penguin-Analysis\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
 </script>
+</div> <!-- /content -->
 
-</body>
-</html>
+
+
+
+</body></html>

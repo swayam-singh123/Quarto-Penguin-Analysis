@@ -1,0 +1,1344 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.553">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Final Project</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Final Project</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.qmd"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../eda.html"> 
+<span class="menu-text">Penguins EDA</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../Model.qmd"> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#reticulate-1.36.0" id="toc-reticulate-1.36.0" class="nav-link active" data-scroll-target="#reticulate-1.36.0">reticulate 1.36.0</a></li>
+  <li><a href="#reticulate-1.35.0" id="toc-reticulate-1.35.0" class="nav-link" data-scroll-target="#reticulate-1.35.0">reticulate 1.35.0</a>
+  <ul class="collapse">
+  <li><a href="#knitr-python-engine-changes" id="toc-knitr-python-engine-changes" class="nav-link" data-scroll-target="#knitr-python-engine-changes">Knitr Python Engine Changes:</a></li>
+  </ul></li>
+  <li><a href="#reticulate-1.34.0" id="toc-reticulate-1.34.0" class="nav-link" data-scroll-target="#reticulate-1.34.0">reticulate 1.34.0</a></li>
+  <li><a href="#reticulate-1.33.0" id="toc-reticulate-1.33.0" class="nav-link" data-scroll-target="#reticulate-1.33.0">reticulate 1.33.0</a></li>
+  <li><a href="#reticulate-1.32.0" id="toc-reticulate-1.32.0" class="nav-link" data-scroll-target="#reticulate-1.32.0">reticulate 1.32.0</a></li>
+  <li><a href="#reticulate-1.31" id="toc-reticulate-1.31" class="nav-link" data-scroll-target="#reticulate-1.31">reticulate 1.31</a>
+  <ul class="collapse">
+  <li><a href="#python-installation-management" id="toc-python-installation-management" class="nav-link" data-scroll-target="#python-installation-management">Python Installation Management</a></li>
+  <li><a href="#language" id="toc-language" class="nav-link" data-scroll-target="#language">Language</a></li>
+  <li><a href="#knitr" id="toc-knitr" class="nav-link" data-scroll-target="#knitr">Knitr</a></li>
+  <li><a href="#miscellanous" id="toc-miscellanous" class="nav-link" data-scroll-target="#miscellanous">Miscellanous</a></li>
+  </ul></li>
+  <li><a href="#reticulate-1.30" id="toc-reticulate-1.30" class="nav-link" data-scroll-target="#reticulate-1.30">reticulate 1.30</a></li>
+  <li><a href="#reticulate-1.29" id="toc-reticulate-1.29" class="nav-link" data-scroll-target="#reticulate-1.29">reticulate 1.29</a>
+  <ul class="collapse">
+  <li><a href="#exceptions-and-errors" id="toc-exceptions-and-errors" class="nav-link" data-scroll-target="#exceptions-and-errors">Exceptions and Errors:</a></li>
+  <li><a href="#language-1" id="toc-language-1" class="nav-link" data-scroll-target="#language-1">Language:</a></li>
+  <li><a href="#knitr-1" id="toc-knitr-1" class="nav-link" data-scroll-target="#knitr-1">knitr:</a></li>
+  <li><a href="#misc" id="toc-misc" class="nav-link" data-scroll-target="#misc">Misc:</a></li>
+  </ul></li>
+  <li><a href="#reticulate-1.28" id="toc-reticulate-1.28" class="nav-link" data-scroll-target="#reticulate-1.28">reticulate 1.28</a></li>
+  <li><a href="#reticulate-1.27" id="toc-reticulate-1.27" class="nav-link" data-scroll-target="#reticulate-1.27">reticulate 1.27</a></li>
+  <li><a href="#reticulate-1.26" id="toc-reticulate-1.26" class="nav-link" data-scroll-target="#reticulate-1.26">reticulate 1.26</a></li>
+  <li><a href="#reticulate-1.25" id="toc-reticulate-1.25" class="nav-link" data-scroll-target="#reticulate-1.25">reticulate 1.25</a></li>
+  <li><a href="#reticulate-1.24" id="toc-reticulate-1.24" class="nav-link" data-scroll-target="#reticulate-1.24">reticulate 1.24</a></li>
+  <li><a href="#reticulate-1.23" id="toc-reticulate-1.23" class="nav-link" data-scroll-target="#reticulate-1.23">reticulate 1.23</a></li>
+  <li><a href="#reticulate-1.22" id="toc-reticulate-1.22" class="nav-link" data-scroll-target="#reticulate-1.22">reticulate 1.22</a></li>
+  <li><a href="#reticulate-1.21" id="toc-reticulate-1.21" class="nav-link" data-scroll-target="#reticulate-1.21">reticulate 1.21</a></li>
+  <li><a href="#reticulate-1.20" id="toc-reticulate-1.20" class="nav-link" data-scroll-target="#reticulate-1.20">reticulate 1.20</a></li>
+  <li><a href="#reticulate-1.19" id="toc-reticulate-1.19" class="nav-link" data-scroll-target="#reticulate-1.19">reticulate 1.19</a></li>
+  <li><a href="#reticulate-1.18" id="toc-reticulate-1.18" class="nav-link" data-scroll-target="#reticulate-1.18">reticulate 1.18</a></li>
+  <li><a href="#reticulate-1.17" id="toc-reticulate-1.17" class="nav-link" data-scroll-target="#reticulate-1.17">reticulate 1.17</a></li>
+  <li><a href="#reticulate-1.16" id="toc-reticulate-1.16" class="nav-link" data-scroll-target="#reticulate-1.16">reticulate 1.16</a></li>
+  <li><a href="#reticulate-1.15" id="toc-reticulate-1.15" class="nav-link" data-scroll-target="#reticulate-1.15">reticulate 1.15</a></li>
+  <li><a href="#reticulate-1.14" id="toc-reticulate-1.14" class="nav-link" data-scroll-target="#reticulate-1.14">reticulate 1.14</a></li>
+  <li><a href="#reticulate-1.13" id="toc-reticulate-1.13" class="nav-link" data-scroll-target="#reticulate-1.13">reticulate 1.13</a></li>
+  <li><a href="#reticulate-1.12" id="toc-reticulate-1.12" class="nav-link" data-scroll-target="#reticulate-1.12">reticulate 1.12</a></li>
+  <li><a href="#reticulate-1.11.1" id="toc-reticulate-1.11.1" class="nav-link" data-scroll-target="#reticulate-1.11.1">reticulate 1.11.1</a></li>
+  <li><a href="#reticulate-1.11" id="toc-reticulate-1.11" class="nav-link" data-scroll-target="#reticulate-1.11">reticulate 1.11</a></li>
+  <li><a href="#reticulate-1.10" id="toc-reticulate-1.10" class="nav-link" data-scroll-target="#reticulate-1.10">reticulate 1.10</a></li>
+  <li><a href="#reticulate-1.9" id="toc-reticulate-1.9" class="nav-link" data-scroll-target="#reticulate-1.9">reticulate 1.9</a></li>
+  <li><a href="#reticulate-1.8" id="toc-reticulate-1.8" class="nav-link" data-scroll-target="#reticulate-1.8">reticulate 1.8</a></li>
+  <li><a href="#reticulate-1.7" id="toc-reticulate-1.7" class="nav-link" data-scroll-target="#reticulate-1.7">reticulate 1.7</a></li>
+  <li><a href="#reticulate-1.6" id="toc-reticulate-1.6" class="nav-link" data-scroll-target="#reticulate-1.6">reticulate 1.6</a></li>
+  <li><a href="#reticulate-1.5" id="toc-reticulate-1.5" class="nav-link" data-scroll-target="#reticulate-1.5">reticulate 1.5</a></li>
+  <li><a href="#reticulate-1.4" id="toc-reticulate-1.4" class="nav-link" data-scroll-target="#reticulate-1.4">reticulate 1.4</a></li>
+  <li><a href="#reticulate-1.3.1" id="toc-reticulate-1.3.1" class="nav-link" data-scroll-target="#reticulate-1.3.1">reticulate 1.3.1</a></li>
+  <li><a href="#reticulate-1.3" id="toc-reticulate-1.3" class="nav-link" data-scroll-target="#reticulate-1.3">reticulate 1.3</a></li>
+  <li><a href="#reticulate-1.2" id="toc-reticulate-1.2" class="nav-link" data-scroll-target="#reticulate-1.2">reticulate 1.2</a></li>
+  <li><a href="#reticulate-1.1" id="toc-reticulate-1.1" class="nav-link" data-scroll-target="#reticulate-1.1">reticulate 1.1</a></li>
+  <li><a href="#reticulate-1.0" id="toc-reticulate-1.0" class="nav-link" data-scroll-target="#reticulate-1.0">reticulate 1.0</a></li>
+  <li><a href="#reticulate-0.9" id="toc-reticulate-0.9" class="nav-link" data-scroll-target="#reticulate-0.9">reticulate 0.9</a></li>
+  <li><a href="#reticulate-0.8" id="toc-reticulate-0.8" class="nav-link" data-scroll-target="#reticulate-0.8">reticulate 0.8</a></li>
+  <li><a href="#reticulate-0.7" id="toc-reticulate-0.7" class="nav-link" data-scroll-target="#reticulate-0.7">reticulate 0.7</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+
+
+<section id="reticulate-1.36.0" class="level1">
+<h1>reticulate 1.36.0</h1>
+<ul>
+<li><p>Internal refactoring and optimization now give a faster experience, especially for workflows that frequently access Python objects from R. For example, simple attribute access like <code>sys$path</code> is ~2.5x times faster, and a sample workload of <code>py_to_r(np_array(1:3) + np_array(1:3))</code> benchmarks ~3.5x faster when compared to the previous CRAN release.</p></li>
+<li><p>Fixed issue where callable python objects created with <code>convert = FALSE</code> would not be wrapped in an R function (#1522).</p></li>
+<li><p>Fixed issue where <code>py_to_r()</code> S3 methods would not be called on arguments supplied to R functions being called from Python (#1522).</p></li>
+<li><p><code>install_python()</code> will now build optimized versions of Python on macOS and Linux (#1567)</p></li>
+<li><p>Default Python version installed by <code>install_python()</code> is now 3.10 (was 3.9) (#1574).</p></li>
+<li><p>Output of <code>reticulate::py_last_error()</code> now includes a hint, showing how to access the full R call stack (#1572).</p></li>
+<li><p>Fixed an issue where nested <code>py_capture_output()</code> calls result in a lost reference to the original <code>sys.stdout</code> and <code>sys.stderr</code>, resulting in no further visible output from Python, and eventually, a segfault. (#1564)</p></li>
+<li><p>Fixed issues reported by rchk, as requested by CRAN (#1581).</p></li>
+<li><p><code>py_to_r(x)</code> now returns <code>x</code> unmodified if <code>x</code> is not a Python object, instead of signaling an error.</p></li>
+<li><p>New <code>as.data.frame()</code> method exported for Python Polars DataFrames (#1568)</p></li>
+<li><p>Fixed an issue where printing a delayed module (<code>import("foo", delay_load = TRUE)</code>) would output <code>&lt;pointer: 0x0&gt;</code>.</p></li>
+<li><p><code>py_validate_xptr()</code> will now attempt to resolve delayed modules before signaling an error (#1561).</p></li>
+<li><p>R packages can now express multiple preferred Python environments to search for and use if they exist, by supplying a character vector to <code>import()</code>: <code>import("foo", delay_load = list(environment = c("r-foo", "r-bar")))</code> (#1559)</p></li>
+<li><p>Reticulate will no longer warn about ignored <code>use_python(,required = FALSE)</code> calls (#1562).</p></li>
+<li><p><code>reticulate</code> now prefers using the agg matplotlib backend when the R session is non-interactive. The backend can also be overridden via the <code>MPLBACKEND</code> or <code>RETICULATE_MPLBACKEND</code> environment variables when necessary (#1556).</p></li>
+<li><p><code>attr(x, "tzone")</code> attributes are (better) preserved when converting POSIXt to Python. POSIXt types with a non-empty <code>tzone</code> attr convert to a <code>datetime.datetime</code>, otherwise they convert to NumPy <code>datetime64[ns]</code> arrays.</p></li>
+<li><p>Fixed an issue where calling <code>py_set_item()</code> on a subclassed dict would not invoke a custom <code>__setitem__</code> method.</p></li>
+<li><p><code>py_del_attr(x, name)</code> now returns <code>x</code> invisibly</p></li>
+<li><p><code>source_python()</code> no longer exports the <code>r</code> symbol to the R global environment. (the “R Interface Object” that is used by Python code get a reference to the R <code>globalenv()</code>)</p></li>
+<li><p>Fixed hang encountered (sometimes) when attempting to call <code>iterate()</code> on an exhausted <code>py_iterator()</code> object multiple times (#1539).</p></li>
+<li><p><code>iterate(simplify=TRUE)</code> rewritten in C for speed improvements (#1539).</p></li>
+<li><p>Update for Pandas 2.2 deprecation of <code>Index.format()</code> (#1537, #1538).</p></li>
+<li><p>Updates for CRAN R-devel (R 4.4) (#1554).</p></li>
+<li><p>Fixed an issue where <code>py_discover_config()</code> would discover <code>python</code> (v2) on the PATH in preference of <code>python3</code> on the PATH. (#1547)</p></li>
+<li><p>Fixed an issue where reticulate would error when using conda environments created with the (new) <code>conda env create</code> command. (#1535, #1543)</p></li>
+<li><p>Fixed an issue where reticulate would error when using a conda environment where the original conda binary that was used to create the environment is no longer available (#1555)</p></li>
+<li><p>Fixed an issue where a user would be unable to accept the prompt to create the default “r-reticulate” venv (#1557).</p></li>
+<li><p><code>is_py_object()</code> is now exported (#1573).</p></li>
+</ul>
+</section>
+<section id="reticulate-1.35.0" class="level1">
+<h1>reticulate 1.35.0</h1>
+<ul>
+<li><p>Subclassed Python list and dict objects are no longer automatically converted to R vectors. Additionally, the S3 R <code>class</code> attribute for Python objects is now constructed using the Python <code>type(object)</code> directly, rather than from the <code>object.__class__</code> attribute. See #1531 for details and context.</p></li>
+<li><p>R external pointers (EXTPTRSXP objects) now round-trip through <code>py_to_r(r_to_py(x))</code> successfully. (reported in #1511, fixed in #1519, contributed by <span class="citation" data-cites="llaniewski">@llaniewski</span>).</p></li>
+<li><p>Fixed issue where <code>virtualenv_create()</code> would error on Ubuntu 22.04 when using the system python as a base. (#1495, fixed in #1496).</p></li>
+<li><p>Fixed issue where <code>csc_matrix</code> objects with unsorted indices could not be converted to a dgCMatrix. (related to #727, fixed in #1524, contributed by <span class="citation" data-cites="rcannood">@rcannood</span>).</p></li>
+<li><p>Added support for partially unexpanded variables like <code>$USER</code> in <code>XDG_DATA_HOME</code> and similar (#1513, #1514)</p></li>
+</ul>
+<section id="knitr-python-engine-changes" class="level2">
+<h2 class="anchored" data-anchor-id="knitr-python-engine-changes">Knitr Python Engine Changes:</h2>
+<ul>
+<li><p>The knitr python engine now formats captured python exceptions to include the exception type and any exception notes when chunk options <code>error = TRUE</code> is set (reported in #1520, fixed in #1527).</p></li>
+<li><p>Fixed an issue where the knitr python engine would fail to include figures from python chunks if a custom <code>root.dir</code> chunk option was set. (reported in #1526, fixed in #1529)</p></li>
+<li><p>knitr engine gains the ability to save chunk figures in multiple files/formats (Contributed by <span class="citation" data-cites="Rumengol">@Rumengol</span> in #1507)</p></li>
+<li><p>Fixed an issue where matplotlib figures generated in the initial chunk where matplotlib was first imported would be the wrong size (reported in #1523, fixed in #1530)</p></li>
+<li><p>Fixed an issue where the knitr engine would not correctly display altair compound charts if more than one were present in a document (#1500, #1532).</p></li>
+</ul>
+</section>
+</section>
+<section id="reticulate-1.34.0" class="level1">
+<h1>reticulate 1.34.0</h1>
+</section>
+<section id="reticulate-1.33.0" class="level1">
+<h1>reticulate 1.33.0</h1>
+<ul>
+<li><p>Fixed issue where <code>asyncio</code>, (and modules that use <code>asyncio</code>), would error on Windows when running under RStudio (#1478, #1479).</p></li>
+<li><p>Added compatability with Python 3.12.</p></li>
+<li><p><code>condaenv_exists()</code> is now exported.</p></li>
+</ul>
+</section>
+<section id="reticulate-1.32.0" class="level1">
+<h1>reticulate 1.32.0</h1>
+<ul>
+<li><p>reticulate now supports casting R data.frames to Pandas data.frames using nullable data types, allowing users to preserve NA’s from R atomic vectors. This feature is opt-in and can be enabled by setting the R option <code>reticulate.pandas_use_nullable_dtypes</code> to <code>TRUE</code>. (#1439)</p></li>
+<li><p>reticulate now exports a <code>chooseOpsMethod()</code> method, allowing for Ops dispatch to more specialized Ops methods defined for Python objects.</p></li>
+<li><p><code>py_discover_config()</code> will now warn instead of error upon encountering a broken Python installation. (#1441, #1459)</p></li>
+<li><p>Fixed issue where Python would raise exception “OSError: [WinError 6] The handle is invalid” when opening a subprocess while running in Rstudio on Windows. (#1448, #518)</p></li>
+<li><p>Fixed issue where the multiprocessing Python module would crash or hang when spawning a <code>Process()</code> on Windows. (#1430, #1346, fixed in #1461)</p></li>
+<li><p>Fixed issue where <code>virtualenv_create()</code> would fail to discover a ‘virtualenv’ module in the system Python installation on Ubuntu. Reticulate will no longer discover and attempt to use the <code>venv</code> module stub present on Ubuntu systems where the <code>python3-venv</code> apt package has not been installed. (mlverse/pysparklyr#11, #1437, #1455)</p></li>
+<li><p>Fixed issue where the user was prompted to create an ‘r-reticulate’ venv in the RStudio IDE before reticulate was requested to initialize Python. (#1450, #1456)</p></li>
+<li><p>Improved error message when reticulate attempts to initialize a virtual environment after the Python installation it was created from is no longer available. (#1149, #1457)</p></li>
+<li><p>Improved error message on Fedora when attempting to create a virtual environment from the system python before running <code>dnf install python3-pip</code>.</p></li>
+<li><p>Fixed issue where <code>install_python()</code> on macOS in the RStudio IDE would fail to discover and use brew for Python build dependencies.</p></li>
+<li><p>Fixed error with <code>virtualenv_create(python = "/usr/bin/python")</code> on centos7. (#1467)</p></li>
+</ul>
+</section>
+<section id="reticulate-1.31" class="level1">
+<h1>reticulate 1.31</h1>
+<section id="python-installation-management" class="level2">
+<h2 class="anchored" data-anchor-id="python-installation-management">Python Installation Management</h2>
+<ul>
+<li><p>reticulate will no longer prompt users to install miniconda. Instead, reticulate will now prompt users to create a default <code>r-reticulate</code> venv.</p></li>
+<li><p>The search that reticulate conducts to select which Python installation to load has changed. See the updated Python “Order of Discover” in the “versions” vignette. <code>vignette("versions", package = "reticulate")</code>.</p></li>
+<li><p>Updated recommendations in the “python_dependencies” vignette for how R packages can approach Python dependency management. <code>vignette("python_dependencies", package = "reticulate")</code></p></li>
+<li><p>New function <code>virtualenv_starter()</code>, which can be used to find a suitable python binary for creating a virtual environment. This is now the default method for finding the python binary when calling <code>virtualenv_create(version = &lt;version&gt;)</code>.</p></li>
+<li><p><code>virtualenv_create()</code> and <code>virtualenv_install()</code> gain a <code>requirements</code> argument, accepting a filepath to a python requirements file.</p></li>
+<li><p><code>virtualenv_create()</code> gains a <code>force</code> argument.</p></li>
+<li><p><code>virtualenv_install()</code> gains a <code>python_version</code> argument, allowing users to customize which python version is used when bootstrapping a new virtual environment.</p></li>
+<li><p>Fixed an issue where the list of available python versions used by <code>install_python()</code> would be out-of-date.</p></li>
+<li><p><code>install_python()</code> now gives a better error message if git is not installed.</p></li>
+<li><p><code>install_python()</code> on macOS will now will use brew, if it’s available, to install build dependencies, substantially speeding up python build times.</p></li>
+<li><p>New function <code>conda_search()</code>, contributed by <span class="citation" data-cites="mkoohafkan">@mkoohafkan</span> in PR #1364.</p></li>
+</ul>
+</section>
+<section id="language" class="level2">
+<h2 class="anchored" data-anchor-id="language">Language</h2>
+<ul>
+<li><p>New <code>[</code> and <code>[&lt;-</code> methods that invoke Python <code>__getitem__</code>, <code>__setitem__</code> and <code>__delitem__</code>. The R generics <code>[</code> and <code>[&lt;-</code> now accept python-style slice syntax like <code>x[1:2:3]</code>. See examples in <code>?py_get_item</code>.</p></li>
+<li><p><code>py_iterator()</code> gains a <code>prefetch</code> argument, primarily to avoid deadlocks where the main thread is blocked, waiting for the iterator, which is waiting to run on the main thread, as encountered in TensorFlow/Keras. (#1405).</p></li>
+<li><p>String columns from Pandas data frames containing <code>None</code>, <code>pd.NA</code> or <code>np.nan</code> are now simplified into character vectors and missing values replaced by <code>NA</code> (#1428).</p></li>
+<li><p>Converting from Pandas data frames containing columns with Pandas nullable data types are now correctly converted into R data.frames preserving the missing values (#1427).</p></li>
+</ul>
+</section>
+<section id="knitr" class="level2">
+<h2 class="anchored" data-anchor-id="knitr">Knitr</h2>
+<ul>
+<li><p>The knitr engine gains a <code>jupyter_compat</code> option, enabling reticulate to better match the behavior of Jupyter. When this chunk option is set to <code>TRUE</code>, only the return value from the last expression in a chunk is auto-printed. (#1391, #1394, contributed by <span class="citation" data-cites="matthew-brett">@matthew-brett</span>)</p></li>
+<li><p>The knitr engine now more reliably detects and displays matplotlib pending plots, without the need for a matplotlib artist object to be returned as a top-level expression. E.g., the knitr engine will now display plots when the matplotlib api returns something other than an artist object, (<code>plt.bar()</code>), or the matplotlib return value is not auto-printed due to being assigned, (<code>x = plt.plot()</code>), or suppressed with a <code>;</code>, (<code>plt.plot();</code>). (#1391, #1401, contributed by <span class="citation" data-cites="matthew-brett">@matthew-brett</span>)</p></li>
+<li><p>Fixed an issue where knitr engine would not respect chunk options <code>fig.width</code> / <code>fig.height</code> when rendering matplotlib plots. (#1398)</p></li>
+<li><p>Fixed an issue where the reticulate knitr engine would not capture output printed from python. (PR #1412, fixing #1378, #331)</p></li>
+</ul>
+</section>
+<section id="miscellanous" class="level2">
+<h2 class="anchored" data-anchor-id="miscellanous">Miscellanous</h2>
+<ul>
+<li><p>Reticulate now periodically flushes python <code>stdout</code> and <code>stderr</code> buffers even while the main thread is blocked executing Python code. Streaming output from a long-running Python function call will now appear in the R console while the Python function is still executing. (Previously, output might not appear until the Python function had finished and control of the main thread had returned to R).</p></li>
+<li><p>Updated sparse matrix conversion routines for compatibility with scipy 1.11.0.</p></li>
+<li><p>Fixed an issue where a py capsule finalizer could access the R API from a background thread. (#1406)</p></li>
+<li><p>Fixed issue where R would segfault (crash) in long-lived R sessions where both rpy2 and reticulate were in use (#1236).</p></li>
+<li><p>Fixed an issue where exceptions from reticulate would not be formatted properly when running tests under testthat (r-lib/rlang#1637, #1413).</p></li>
+<li><p>Fixed an issue where <code>py_get_attr(silent = TRUE)</code> would not return an R <code>NULL</code>, if the attribute was missing, as documented. (#1413)</p></li>
+<li><p>Fixed an issue where <code>py_get_attr(silent = TRUE)</code> would leave a python global exception set if the attribute was missing, resulting in fatal errors when running python under debug mode. (#1396)</p></li>
+</ul>
+</section>
+</section>
+<section id="reticulate-1.30" class="level1">
+<h1>reticulate 1.30</h1>
+<ul>
+<li>Fix compilation error on R 3.5. Bump minimum R version dependency to 3.5.</li>
+</ul>
+</section>
+<section id="reticulate-1.29" class="level1">
+<h1>reticulate 1.29</h1>
+<section id="exceptions-and-errors" class="level3">
+<h3 class="anchored" data-anchor-id="exceptions-and-errors">Exceptions and Errors:</h3>
+<ul>
+<li><p>R error information (call, message, other attributes) is now preserved as an R error condition traverses the R &lt;-&gt; Python boundary.</p></li>
+<li><p>Python Exceptions now inherit from <code>error</code> and <code>condition</code>, and can be passed directly to <code>base::stop()</code> to signal an error in R and raise an exception in Python.</p></li>
+<li><p>Raised Python Exceptions are now used directly to signal an R error. For example, in the following code, <code>e</code> is now an object that inherits from <code>python.builtin.Exception</code> as well as <code>error</code> and <code>condition</code>: <code>r     e &lt;- tryCatch(py_func_that_raises_exception(),                   error = function(e) e)</code> Use <code>base::conditionCall()</code> and <code>base::conditionMessage()</code> to access the original R call and error message.</p></li>
+<li><p><code>py_last_error()</code> return object contains <code>r_call</code>, <code>r_trace</code> and/or <code>r_class</code> if the Python Exception was raised by an R function called from Python.</p></li>
+<li><p>The hint to run <code>reticulate::py_last_error()</code> after an exception is now clickable in the RStudio IDE.</p></li>
+<li><p>Filepaths to Python files in the print output from <code>py_last_error()</code> are now clickable links in the RStudio IDE.</p></li>
+<li><p>Python exceptions encountered in <code>repl_python()</code> are now printed with the full Python traceback by default. In the RStudio IDE, filepaths in the tracebacks are rendered as clickable links. (#1240)</p></li>
+</ul>
+</section>
+<section id="language-1" class="level3">
+<h3 class="anchored" data-anchor-id="language-1">Language:</h3>
+<ul>
+<li><p>Converted Python callables gain support for dynamic dots from the rlang package. New features:</p>
+<ul>
+<li>splicing (unpacking) arguments: <code>fn(!!!kwargs)</code></li>
+<li>dynamic names: <code>nm &lt;- "key"; fn("{nm}" := value)</code></li>
+<li>trailing commas ignored (matching Python syntax): <code>fn(a, )</code> identical to <code>fn(a)</code></li>
+</ul></li>
+<li><p>New Ops group generics for Python objects: <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>^</code>, <code>%%</code>, <code>%/%</code>, <code>&amp;</code>, <code>|</code>, <code>!</code>, <code>%*%</code>. Methods for all the Ops group generics are now defined for Python objects. (#1187, #1363) E.g., this now works:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>np <span class="ot">&lt;-</span> reticulate<span class="sc">::</span><span class="fu">import</span>(<span class="st">"numpy"</span>, <span class="at">convert =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> np<span class="sc">$</span><span class="fu">array</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> np<span class="sc">$</span><span class="fu">array</span>(<span class="dv">6</span><span class="sc">:</span><span class="dv">10</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>x <span class="sc">+</span> y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>Fixed two issues with R comparison operator methods (<code>==</code>, <code>!=</code>, <code>&lt;</code>, <code>&lt;=</code>, <code>&gt;=</code>, <code>&gt;</code>):</p>
+<ul>
+<li>The operators no longer error on Python objects that define “rich comparison” Python methods that don’t return a single bool. (e.g., numpy arrays).</li>
+<li>The operators now respect the ‘convert’ value of the supplied Python objects. Note, this may be a breaking change as, e.g, <code>==</code>, may now no long return an R scalar logical if one of the Python object being compared was created with <code>convert = FALSE</code>. Wrap the result of the comparison with <code>py_bool()</code> to restore the previous behavior. (#1187, #1363)</li>
+</ul></li>
+<li><p>R functions wrapping Python callables now have formals matching those of the Python callable signature, enabling better autocompletion in more contexts (#1361).</p></li>
+<li><p>new <code>nameOfClass()</code> S3 method for Python types, enabling usage: <code>base::inherits(x, &lt;python-type-object&gt;)</code> (requires R &gt;= 4.3.0)</p></li>
+<li><p><code>py_run_file()</code> and <code>source_python()</code> now prepend the script directory to the Python module search path, <code>sys.path</code>, while the requested script is executing. This allows the Python scripts to resolve imports of modules defined in the script directory, matching the behavior of <code>python &lt;script&gt;</code> at the command line. (#1347)</p></li>
+</ul>
+</section>
+<section id="knitr-1" class="level3">
+<h3 class="anchored" data-anchor-id="knitr-1">knitr:</h3>
+<ul>
+<li><p>The knitr engine now suppresses warnings from Python code if <code>warning=FALSE</code> is set in the chunk options. (quarto-dev/quarto#125, #1358)</p></li>
+<li><p>Fixed issue where reticulate’s knitr engine would attach comments in a code chunk to the wrong code chunk (requires Python&gt;=3.8) (#1223).</p></li>
+<li><p>The knitr Python engine now respects the <code>strip.white</code> option (#1273).</p></li>
+<li><p>Fixed issue where the knitr engine would show an additional plot from a chunk if the user called <code>matplotlib.pyplot.show()</code> (#1380, #1383)</p></li>
+</ul>
+</section>
+<section id="misc" class="level3">
+<h3 class="anchored" data-anchor-id="misc">Misc:</h3>
+<ul>
+<li><p><code>py_to_r()</code> now succeeds when converting subtypes of the built-in types (e.g.&nbsp;<code>list</code>, <code>dict</code>, <code>str</code>). (#1352, #1348, #1226, #1354, #1366)</p></li>
+<li><p>New <code>pillar::type_sum()</code> method now exported for Python objects. That ensures the full object class name is printing in R tracebacks and tibbles containing Python objects.</p></li>
+<li><p><code>py_load_object()</code> gains a <code>convert</code> argument. If <code>convert = FALSE</code>, the returned Python object will not be converted to an R object.</p></li>
+<li><p>Fixed error <code>r_to_py()</code> with Pandas&gt;=2.0 and R data.frames with a factor column containing levels with <code>NA</code>.</p></li>
+<li><p><code>r_to_py()</code> now succeeds for many additional types of R objects. Objects that reticulate doesn’t know how to convert are presented to the Python runtime as a pycapsule (an opaque pointer to the underlying R object). Previously this would error. This allows for R code to pass R objects that cannot be safely converted to Python through the Python runtime to other R code. (e.g, to an R function called by Python code). (#1304)</p></li>
+<li><p>reticulate gains the ability to bind to micromamba Python installations (#1378, #1176, #1382, #1379, thanks to Zia Khan, <span class="citation" data-cites="zia1138">@zia1138</span>)</p></li>
+<li><p>Default Python version used by <code>install_miniconda()</code> and friends is now 3.9 (was 3.8).</p></li>
+</ul>
+</section>
+</section>
+<section id="reticulate-1.28" class="level1">
+<h1>reticulate 1.28</h1>
+<ul>
+<li><p>Fixed issue where <code>source_python()</code> (and likely many other entrypoints) would error if reticulate was built with Rcpp 1.0.10. Exception and error handling has been updated to accommodate usage of <code>R_ProtectUnwind()</code>. (#1328, #1329).</p></li>
+<li><p>Fixed issue where reticulate failed to discover Python 3.11 on Windows. (#1325)</p></li>
+<li><p>Fixed issue where reticulate would error by attempting to bind to a cygwin/msys2 installation of Python on Windows (#1325).</p></li>
+</ul>
+</section>
+<section id="reticulate-1.27" class="level1">
+<h1>reticulate 1.27</h1>
+<ul>
+<li><p><code>py_run_file()</code> now ensures the <code>__file__</code> dunder is visible to the executing python code. (#1283, #1284)</p></li>
+<li><p>Fixed errors with <code>install_miniconda()</code> and <code>conda_install()</code>, on Windows (#1286, #1287, conda/conda#11795, #1312, #1297), and on Linux and macOS (#1306, conda/conda#10431)</p></li>
+<li><p>Fixed error when activating a conda env from a UNC drive on Windows (#1303).</p></li>
+</ul>
+</section>
+<section id="reticulate-1.26" class="level1">
+<h1>reticulate 1.26</h1>
+<ul>
+<li><p>Fixed issue where reticulate failed to bind to python2. (#1241, #1229)</p></li>
+<li><p>A warning is now issued when reticulate binds to python2 that python2 support will be removed in an upcoming reticulate release.</p></li>
+<li><p><code>py_id()</code> now returns a character string, instead of an R integer (#1216).</p></li>
+<li><p>Fixed an issue where <code>py_to_r()</code> would not convert elements of a dictionary (#1221).</p></li>
+<li><p>Fixed an issue where setting <code>RETICULATE_PYTHON</code> or <code>RETICULATE_PYTHON_FALLBACK</code> on Windows to the pyenv-win <code>python.bat</code> shim would result in an error (#1263).</p></li>
+<li><p>Fixed an issue where <code>datetime.datetime</code> objects with a <code>tzinfo</code> attribute was not getting converted to R correctly (#1266).</p></li>
+<li><p>Fixed an issue where pandas <code>pandas.Categorical(,ordered=True)</code> Series were not correctly converted to an R ordered factor (#1234).</p></li>
+<li><p>The <code>reticulate</code> Python engine no longer halts on error for Python chunks containing parse errors when the <code>error=TRUE</code> chunk option is set. (#583)</p></li>
+<li><p><code>install_python()</code> now leverages brew for python build dependencies like openssl@1.1 if brew is already installed and on the PATH, substantially speeding up <code>install_python()</code> on macOS systems with brew configured.</p></li>
+<li><p>Fixed an issue where reticulate would fail to bind to a conda environment on macOS or linux if conda installed a non-POSIX compliant activation script into the conda environment. (#1255)</p></li>
+<li><p>Fixed an issue where the python knitr engine would error when printing to HTML a constructor of class instances with a <code>_repr_html_</code> or <code>to_html</code> method (e.g., <code>pandas.DataFrame</code>; #1249, #1250).</p></li>
+<li><p>Fixed an issue where the python knitr engine would error when printing a plotly figure to an HTML document in some (head-less) linux environments (#1250).</p></li>
+<li><p>Fixed an issue where <code>conda_install(pip=TRUE)</code> would install packages into a user Python library instead of the conda env if the environment variable <code>PIP_USER=true</code> was set. <code>py_install()</code>, <code>virtualenv_install()</code>, and <code>conda_install()</code> now always specify <code>--no-user</code> when invoking <code>pip install</code>. (#1209)</p></li>
+<li><p>Fixed issue where <code>py_last_error()</code> would return unconverted Python objects (#1233)</p></li>
+<li><p>The Knitr engine now supports printing Python objects with <code>_repr_markdown_</code> methods. (via quarto-dev/quarto-cli#1501)</p></li>
+<li><p><code>sys.executable</code> on Windows now correctly reports the path to the Python executable instead of the launching R executable. (#1258)</p></li>
+<li><p>The <code>sys</code> module is no longer automatically imported in <code>__main__</code> by reticulate.</p></li>
+<li><p>Fixed an issue on Windows where reticulate would fail to find Python installations from pyenv installed via scoop.</p></li>
+<li><p>Fixed an issue where <code>configure_environment()</code> would error on Windows. (#1247)</p></li>
+<li><p>Updated docs for compatibility with HTML5 / R 4.2.</p></li>
+<li><p>Updated r_to_py.sparseMatrix() method for compatibility with Matrix 1.4-2.</p></li>
+</ul>
+</section>
+<section id="reticulate-1.25" class="level1">
+<h1>reticulate 1.25</h1>
+<ul>
+<li><p>Fixed an issue where reticulate would fail if R was running embedded under rpy2. reticulate now ensures the Python GIL is acquired before calling into Python. (#1188, #1203)</p></li>
+<li><p>Fixed an issue where reticulate would fail to bind to an ArcGIS Pro conda environment (#1200, <span class="citation" data-cites="philiporlando">@philiporlando</span>).</p></li>
+<li><p>Fixed an issue where reticulate would fail to bind to an Anaconda base environment on Windows.</p></li>
+<li><p>All commands that create, modify, or delete a Python environment now echo the system command about to be executed. Affected: virtualenv_{create,install,remove} conda_{create,clone,remove,install,update} py_install</p></li>
+<li><p><code>install_python()</code> and <code>create_virtualenv()</code> gain the ability to automatically select the latest patch of a requested Python version. e.g.: <code>install_python("3.9:latest")</code>, <code>create_virtualenv("my-env", version = "3.9:latest")</code></p></li>
+<li><p><code>install_python()</code> <code>version</code> arg gains default value of <code>"3.9:latest"</code>. <code>install_python()</code> can now be called with no arguments.</p></li>
+<li><p>Fixed an issue where reticulate would fail to bind to a conda python if the user didn’t have write permissions to the conda installation (#1156).</p></li>
+<li><p>Fixed an issue where reticulate would fail to bind to a conda python if spaces were present in the file path to the associated conda binary (#1154).</p></li>
+<li><p><code>use_python(, required = TRUE)</code> now issues a warning if the request will be ignored (#1150).</p></li>
+<li><p>New function <code>py_repr()</code> (#1157)</p></li>
+<li><p><code>print()</code> and related changes (#1148, #1157):</p>
+<ul>
+<li>The default <code>print()</code> method for Python objects now invokes <code>py_repr()</code> instead of <code>str()</code>.</li>
+<li>All Python objects gain a default <code>format()</code> method that invokes <code>py_str()</code>.</li>
+<li><code>py_str()</code> default method no longer strips the object memory address.</li>
+<li><code>print()</code> now returns the printed object invisibly, for composability with <code>%&gt;%</code>.</li>
+</ul></li>
+<li><p>Exception handling changes (#1142, <span class="citation" data-cites="t-kalinowski">@t-kalinowski</span>):</p>
+<ul>
+<li><p>R error messages from Python exceptions are now truncated differently to satisfy <code>getOption("warning.length")</code>. A hint to call <code>reticulate::py_last_error()</code> is shown if the exception message was truncated.</p></li>
+<li><p>Python buffers <code>sys.stderr</code> and <code>sys.stdout</code> are now flushed when Python exceptions are raised.</p></li>
+</ul>
+<p>-<code>py_last_error()</code>:</p>
+<ul>
+<li><p>Return object is now an S3 object ‘py_error’, includes a default print method.</p></li>
+<li><p>The python Exception object (‘python.builtin.Exception’) is available as an R attribute.</p></li>
+<li><p>Gains the ability to restore a previous exception if provided in a call <code>py_last_error(previous_error)</code></p></li>
+<li><p>Python traceback objects gain a default <code>format()</code> S3 method.</p></li>
+</ul></li>
+<li><p>Fixed <code>py_to_r()</code> for scipy matrices when scipy &gt;= 1.8.0, since sparse matrices are now deprecated.</p></li>
+<li><p>Fixed <code>r_to_py()</code> for small scipy matrices.</p></li>
+<li><p>New maintainer: Tomasz Kalinowski</p></li>
+</ul>
+</section>
+<section id="reticulate-1.24" class="level1">
+<h1>reticulate 1.24</h1>
+<ul>
+<li>Fixed an issue where <code>reticulate</code> would fail to bind to the system version of Python on macOS if command line tools were installed, but Xcode was not.</li>
+</ul>
+</section>
+<section id="reticulate-1.23" class="level1">
+<h1>reticulate 1.23</h1>
+<ul>
+<li><p><code>use_condaenv()</code> gains the ability to accept an absolute path to a python binary for <code>envname</code>.</p></li>
+<li><p>All python objects gain a <code>length()</code> method, that returns either <code>py_len(x)</code>, or if that fails, <code>as.integer(py_bool(x))</code>.</p></li>
+<li><p><code>conda_create()</code> default for <code>python_version</code> changed from <code>NULL</code> to <code>miniconda_python_version()</code> (presently, 3.8).</p></li>
+<li><p>New function <code>py_bool()</code>, for evaluating Python “truthiness” of an object.</p></li>
+<li><p><code>reticulate</code> gains the function <code>py_list_packages()</code>, and can be used to list the Python modules available and installed in a particular Python environment. (#933)</p></li>
+<li><p><code>reticulate</code> now supports conversion of Python <a href="https://github.com/h2oai/datatable">datatable</a> objects. (#1081)</p></li>
+<li><p><code>repl_python()</code> gains support for invoking select magic and system commands like <code>!ls</code> and <code>%cd &lt;dir&gt;</code>. See <code>?repl_python()</code> for details and examples.</p></li>
+<li><p>The development branch for <code>reticulate</code> has moved to the “main” branch.</p></li>
+<li><p><code>reticulate</code> gains <code>reticulate::conda_update()</code>, for updating the version of <code>conda</code> in a particular <code>conda</code> installation.</p></li>
+<li><p><code>reticulate</code> gains <code>reticulate::miniconda_uninstall()</code>, for uninstalling the reticulate-managed version of Miniconda. (#1077)</p></li>
+<li><p><code>reticulate::use_python()</code> and friends now assume <code>required = TRUE</code> by default. For backwards compatibility, when <code>use_python()</code> is called as part of a package load hook, the default value will instead be <code>FALSE</code>.</p></li>
+<li><p><code>reticulate</code> now provides support for Python environments managed by <a href="https://python-poetry.org/">poetry</a>. For projects containing a <code>pyproject.toml</code> file, <code>reticulate</code> will attempt to find and use the virtual environment managed by Poetry for that project. (#1031)</p></li>
+<li><p>The default version of Python used for the <code>r-reticulate</code> Miniconda environment installed via <code>reticulate::install_miniconda()</code> has changed from 3.6 to 3.8.</p></li>
+<li><p><code>reticulate::install_miniconda()</code> now prefers installing the latest arm64 builds of miniforge. See https://conda-forge.org/blog/posts/2020-10-29-macos-arm64/ for more details.</p></li>
+<li><p><code>reticulate::conda_create()</code> gains the <code>environment</code> argument, used when creating a new conda environment based on an exported environment definition (e.g.&nbsp;<code>environment.yml</code> or <code>environment.json</code>).</p></li>
+<li><p><code>reticulate</code> gains the function, <code>conda_export()</code>, for exporting a conda environment definition as YAML. Environments are exported as via the <code>conda env export</code> command. (#779)</p></li>
+<li><p><code>reticulate::find_conda()</code> will now locate miniforge Conda installations located within the default install locations.</p></li>
+<li><p>Fixed an issue that caused <code>reticulate::conda_install(pip = TRUE)</code> to fail on windows. (#1053, <span class="citation" data-cites="t-kalinowski">@t-kalinowski</span>)</p></li>
+</ul>
+</section>
+<section id="reticulate-1.22" class="level1">
+<h1>reticulate 1.22</h1>
+<ul>
+<li>Fixed a regression that caused <code>reticulate::conda_install(pip = TRUE)</code> to fail. (#1052)</li>
+</ul>
+</section>
+<section id="reticulate-1.21" class="level1">
+<h1>reticulate 1.21</h1>
+<ul>
+<li><p><code>use_condaenv("base")</code> can now be used to activate the base Anaconda environment.</p></li>
+<li><p><code>reticulate</code> will now execute any hooks registered via <code>setHook("reticulate.onPyInit", &lt;...&gt;)</code> after Python has been initialized. This can be useful for packages that need to take some action after <code>reticulate</code> has initialized Python.</p></li>
+<li><p>Further refined interrupt handling.</p></li>
+<li><p>Fixed an issue where attempting to bind <code>reticulate</code> to <code>/usr/bin/python3</code> on macOS could fail if Xcode was not installed. (#1017)</p></li>
+<li><p>The <code>reticulate</code> Python REPL no longer exits when a top-level interrupt is sent (e.g.&nbsp;via Ctrl + C).</p></li>
+<li><p>The miniconda auto-installer now supports aarch64 Linux machines. (#1012)</p></li>
+<li><p>Fixed an issue where matplotlib plots were incorrectly overwritten when multiple Python chunks in the same R Markdown document included plot output. (#1010)</p></li>
+<li><p><code>reticulate</code> can now use the version of Python configured in projects using <a href="https://pypi.org/project/pipenv/">pipenv</a>. If the project contains a <code>Pipfile</code> at the root directory (as understood by <code>here::here()</code>), then <code>reticulate</code> will invoke <code>pipenv --venv</code> to determine the path to the Python virtual environment associated with the project. Note that the <code>RETICULATE_PYTHON</code> environment variable, as well as usages of <code>use_python(..., force = TRUE)</code>, will still take precedence. (#1006)</p></li>
+<li><p>Fixed an issue where <code>reticulate::py_run_string(..., local = TRUE)</code> failed to return the dictionary of defined Python objects in some cases.</p></li>
+</ul>
+</section>
+<section id="reticulate-1.20" class="level1">
+<h1>reticulate 1.20</h1>
+<ul>
+<li>Fixed an issue causing tests to fail on CRAN’s M1mac machine.</li>
+</ul>
+</section>
+<section id="reticulate-1.19" class="level1">
+<h1>reticulate 1.19</h1>
+<ul>
+<li><p>Fixed an issue where <code>reticulate</code>’s interrupt handlers could cause issues with newer versions of Python.</p></li>
+<li><p><code>reticulate</code> now better handles Pandas categorical variables containing <code>NA</code> values. (#942)</p></li>
+<li><p><code>reticulate</code> now supports converting <code>pandas.NA</code> objects into R <code>NA</code> objects. (#950)</p></li>
+<li><p><code>reticulate</code> now sets the <code>PYTHONIOENCODING</code> environment variable to UTF-8 when running within RStudio. This should allow UTF-8 input and output to be handled more appropriately.</p></li>
+<li><p><code>reticulate</code> gains the <code>install_python()</code> function, used to install different versions of Python via <a href="https://github.com/pyenv/pyenv">pyenv</a> (<a href="https://github.com/pyenv-win/pyenv-win">pyenv-windows</a> on Windows).</p></li>
+<li><p>Interrupt signals (e.g.&nbsp;those generated by <code>Ctrl + C</code>) are now better handled by <code>reticulate</code>. In particular, when <code>repl_python()</code> is active, <code>Ctrl + C</code> can be used to interrupt a pending Python computation.</p></li>
+<li><p><code>virtualenv_create()</code> gains the <code>pip_version</code> and <code>setuptools_version</code> arguments, allowing users to control the versions of <code>pip</code> and <code>setuptools</code> used when initializing the virtual environment. The <code>extra</code> argument can also now be used to pass arbitrary command line arguments when necessary.</p></li>
+<li><p><code>virtualenv_create()</code> gains the <code>module</code> argument, used to control whether <code>virtualenv</code> or <code>venv</code> is used to create the requested virtual environment.</p></li>
+<li><p><code>py_to_r.datetime.datetime</code> no longer errs when <code>tzname</code> is <code>NULL</code>, and instead assumes the time is formatted for <code>UTC</code>. (#876)</p></li>
+<li><p><code>reticulate</code> now supports the rendering of <a href="https://plotly.com/">plotly</a> plots and <a href="https://altair-viz.github.io/">Altair</a> charts in rendered R Markdown documents. (#711)</p></li>
+<li><p><code>reticulate</code> now avoids invoking property methods when inferring the type for Python class members, for auto-completion systems. (#907)</p></li>
+<li><p><code>reticulate</code> now attempts to set the <code>QT_QPA_PLATFORM_PLUGIN_PATH</code> environment variable when initializing a Conda installation of Python, when that associated plugins directory exists. (#586)</p></li>
+<li><p>The <code>reticulate</code> Python engine now supports the <code>results = "hold"</code> knitr chunk option. When set, any generated outputs are “held” and then displayed after the associated chunk’s source code. (#530)</p></li>
+<li><p><code>conda_create()</code> gains the <code>python_version</code> argument, making it easier to request that Conda environments are created with a pre-specified version of Python. (#766)</p></li>
+<li><p>Fixed an issue where <code>reticulate::conda_install()</code> would attempt to re-install the default Python package, potentially upgrading or downgrading the version of Python used in an environment.</p></li>
+<li><p>Fixed an issue where <code>reticulate</code> invoked its <code>reticulate.initialized</code> hook too early.</p></li>
+<li><p>Fixed an issue where Python modules loaded on a separate thread could cause a crash. (#885)</p></li>
+<li><p><code>conda_install()</code> now allows version specifications for the <code>python_version</code> argument; e.g.&nbsp;<code>conda_install(python_version = "&gt;=3.6")</code>. (#880)</p></li>
+<li><p>Fixed an issue where <code>conda_install()</code> failed to pass along <code>forge</code> and <code>channel</code> in calls to <code>conda_create()</code>. (#878)</p></li>
+<li><p>Fixed an issue where Python’s auto-loader hooks could fail when binding to a Python 2.7 installation.</p></li>
+</ul>
+</section>
+<section id="reticulate-1.18" class="level1">
+<h1>reticulate 1.18</h1>
+<ul>
+<li>Fixed an issue where <code>python_config()</code> could throw an error when attempting to query information about a Python 2.6 installation.</li>
+</ul>
+</section>
+<section id="reticulate-1.17" class="level1">
+<h1>reticulate 1.17</h1>
+<ul>
+<li><p><code>reticulate</code> now checks for and disallows installation of Python packages during <code>R CMD check</code>.</p></li>
+<li><p><code>reticulate</code> no longer injects the <code>r</code> helper object into the main module if another variable called <code>r</code> has already been defined.</p></li>
+<li><p>The function <code>py_help_handler()</code> has now been exported, to be used by front-ends and other tools which need to provide help for Python objects in different contexts. (#864)</p></li>
+<li><p>Fixed an issue where timezone information could be lost when converting Python datetime objects to R. (#829)</p></li>
+<li><p>Fixed an issue where numeric (rather than integer) dimensions could cause issues when converting SciPy sparse matrices to their R counterparts. (#844)</p></li>
+<li><p>Fixed an issue where R <code>data.frame</code>s with non-ASCII column names could not be converted to Pandas DataFrames. (#834)</p></li>
+<li><p>Fixed an issue where the <code>pip_ignore_installed</code> argument in <code>conda_install()</code> was silently being ignored.</p></li>
+<li><p>Fixed an issue where <code>reticulate::conda_install()</code> could re-install Python into an environment when not explicitly requested by the user.</p></li>
+<li><p><code>reticulate</code> now sets <code>LD_LIBRARY_PATH</code> when discovering Python. (#836)</p></li>
+<li><p><code>reticulate</code> is now better at capturing Python logger streams (those that write to stdout or stderr) when <code>py_capture_output()</code> is set. (#825)</p></li>
+<li><p><code>reticulate</code> no longer calls <code>utils::loadhistory()</code> after each REPL iteration.</p></li>
+<li><p><code>reticulate</code> now better detects when Python modules are loaded.</p></li>
+<li><p><code>reticulate::import_from_path()</code> now accepts the <code>delay_load</code> parameter, allowing modules which should be loaded from a pre-specified path to be lazy-loaded.</p></li>
+<li><p>Fixed an issue where <code>reticulate</code> load hooks (normally defined via <code>setHook("reticulate::&lt;module&gt;::load", ...)</code>) would segfault if those hooks attempted to load the hooked module.</p></li>
+<li><p><code>reticulate</code> now attempts to resolve the conda binary used to create the associated Conda environment in calls to <code>py_install()</code>. This should fix use cases where Conda environments are placed outside of the Conda installation itself.</p></li>
+<li><p><code>reticulate</code> now sets <code>PYTHONPATH</code> before loading Python, to ensure modules are looked up in the same locations where a regular Python interpreter would find them on load. This should fix issues where <code>reticulate</code> was unable to bind to a Python virtual environment in some cases.</p></li>
+<li><p><code>reticulate::virtualenv_create()</code> gains the <code>packages</code> argument, allowing one to choose a set of packages to be installed (via <code>pip install</code>) after the virtual environment has been created.</p></li>
+<li><p><code>reticulate::virtualenv_create()</code> gains the <code>system_site_packages</code> argument, allowing one to control whether the <code>--system-site-packages</code> flag is passed along when creating a new virtual environment. The default value can be customized via the <code>"reticulate.virtualenv.system_site_packages"</code> option and now defaults to <code>FALSE</code> when unset.</p></li>
+<li><p>Fixed an issue where <code>reticulate::configure_environment()</code> would fail when attempting to configure an Anaconda environment. (#794)</p></li>
+<li><p><code>reticulate</code> now avoids presenting a Miniconda prompt for interactive sessions during R session initialization.</p></li>
+<li><p>Fixed unsafe usages of <code>Rprintf()</code> and <code>REprintf()</code>.</p></li>
+<li><p><code>reticulate::py_install()</code> better respects the <code>method</code> argument, when <code>py_install()</code> is called without an explicit environment name. (#777)</p></li>
+<li><p><code>reticulate:::pip_freeze()</code> now better handles <code>pip</code> direct references. (#775)</p></li>
+<li><p>Fixed an issue where output generated from <code>repl_python()</code> would be buffered until the whole submitted command had completed. (#739, <span class="citation" data-cites="randy3k">@randy3k</span>)</p></li>
+<li><p><code>reticulate</code> now explicitly qualifies symbols used from TinyThread with <code>tthread::</code>, to avoid issues with symbol conflicts during compilation. (#773)</p></li>
+<li><p><code>reticulate</code> will now prefer an existing Miniconda installation over a <code>conda</code> binary on the PATH, when looking for Conda. (#790)</p></li>
+</ul>
+</section>
+<section id="reticulate-1.16" class="level1">
+<h1>reticulate 1.16</h1>
+<ul>
+<li><p>TinyThread now calls <code>Rf_error()</code> rather than <code>std::terminate()</code> when an internal error occurs.</p></li>
+<li><p>Conversion of Pandas DataFrames to R no longer emits deprecation warnings with pandas &gt;= 0.25.0. (#762)</p></li>
+<li><p><code>reticulate</code> now properly handles the version strings returned by beta versions of <code>pip</code>. (#757)</p></li>
+<li><p><code>conda_create()</code> gains the <code>forge</code> and <code>channel</code> arguments, analogous to those already in <code>conda_install()</code>. (#752, <span class="citation" data-cites="jtilly">@jtilly</span>)</p></li>
+</ul>
+</section>
+<section id="reticulate-1.15" class="level1">
+<h1>reticulate 1.15</h1>
+<ul>
+<li><p><code>reticulate</code> now ensures SciPy <code>csr_matrix</code> objects are sorted before attempting to convert them to their R equivalent. (#738, <span class="citation" data-cites="paulofelipe">@paulofelipe</span>)</p></li>
+<li><p>Fixed an issue where calling <code>input()</code> from Python with no prompt would fail. (#728)</p></li>
+<li><p>Lines ending with a semi-colon are no longer auto-printed in the <code>reticulate</code> REPL. (#717, <span class="citation" data-cites="jsfalk">@jsfalk</span>)</p></li>
+<li><p><code>reticulate</code> now searches for Conda binaries in /opt/anaconda and /opt/miniconda. (#713)</p></li>
+<li><p>The <code>conda</code> executable used by <code>reticulate</code> can now be configured using an R option. Use <code>options(reticulate.conda_binary = &lt;...&gt;)</code> to force <code>reticulate</code> to use a particular <code>conda</code> executable.</p></li>
+<li><p><code>reticulate::use_condaenv()</code> better handles cases where no matching environment could be found. (#687)</p></li>
+<li><p><code>reticulate</code> gains the <code>py_ellipsis()</code> function, used to access the Python <code>Ellipsis</code> builtin. (#700, <span class="citation" data-cites="skeydan">@skeydan</span>)</p></li>
+<li><p><code>reticulate::configure_environment()</code> now only allows environment configuration within interactive R sessions, and ensures that the version of Python that has been initialized by Python is indeed associated with a virtual environment or Conda environment. Use <code>reticulate::configure_environment(force = TRUE)</code> to force environment configuration within non-interactive R sessions.</p></li>
+<li><p><code>reticulate</code> now automatically flushes output written to Python’s stdout / stderr, as a top-level task added by <code>addTaskCallback()</code>. This behavior is controlled with the <code>options(reticulate.autoflush)</code> option. (#685)</p></li>
+<li><p><code>reticulate::install_miniconda()</code> no longer attempts to modify the system PATH or registry when installing Miniconda. (#681)</p></li>
+<li><p><code>reticulate::conda_install()</code> gains the <code>channel</code> argument, allowing custom Conda channels to be used when installing Python packages. (#443)</p></li>
+<li><p><code>reticulate::configure_environment()</code> can now be used to configure a non-Miniconda Python environment. (#682; <span class="citation" data-cites="skeydan">@skeydan</span>)</p></li>
+<li><p>Fixed an issue where matplotlib plots would be included using absolute paths, which fails in non-standalone documents rendered to HTML. (#669)</p></li>
+<li><p>Fixed an issue where <code>reticulate</code> would attempt to flush a non-existent stdout / stderr stream. (#584)</p></li>
+</ul>
+</section>
+<section id="reticulate-1.14" class="level1">
+<h1>reticulate 1.14</h1>
+<ul>
+<li><p>Fixed an issue where <code>rmarkdown::render()</code> could fail when including matplotlib plots when <code>knit_root_dir</code> is set. (#645)</p></li>
+<li><p><code>reticulate</code> now scans for Conda installations within the ~/opt folder, as per the updated installers distributed for macOS. (#661)</p></li>
+<li><p>Python classes can now be defined directly from R using the <code>PyClass()</code> function. (#635; <span class="citation" data-cites="dfalbel">@dfalbel</span>)</p></li>
+<li><p>reticulate is now compatible with Python 3.9. (#630, <span class="citation" data-cites="skeydan">@skeydan</span>)</p></li>
+<li><p>Pandas DataFrames with a large number of columns should now be converted to R data.frames more quickly. (#620, <span class="citation" data-cites="skeydan">@skeydan</span>)</p></li>
+<li><p>Python loggers are now better behaved in the Python chunks of R Markdown documents. (#386)</p></li>
+<li><p>reticulate will now attempt to bind to <code>python3</code> rather than <code>python</code>, when no other version of Python has been explicitly requested by e.g.&nbsp;<code>use_python()</code>.</p></li>
+<li><p>reticulate now provides R hooks for Python’s <code>input()</code> and <code>raw_input()</code> functions. It should now be possible to read user input from Python scripts loaded by reticulate. (#610)</p></li>
+<li><p><code>reticulate</code> now more consistently normalizes the paths reported by <code>py_config()</code>. (#609)</p></li>
+<li><p><code>reticulate</code> now provides a mechanism for allowing client packages to declare their Python package dependencies. Packages should declare the Python packages they require as part of the <code>Config/reticulate</code> field in their <code>DESCRIPTION</code> file. Currently, this only activated when using Miniconda; as the assumption is that users will otherwise prefer to manually manage their Python environments. Please see <code>vignette("python_dependencies")</code> for more details.</p></li>
+<li><p><code>reticulate</code> will now prompt the user to create and use a <a href="https://docs.conda.io/en/latest/miniconda.html">Miniconda</a> environment when no other suitable Python environment has already been requested. This should help ease some of the trouble in setting up a Python environment on different platforms. The installer code was contributed by <span class="citation" data-cites="hafen">@hafen</span>, from the <a href="https://github.com/hafen/rminiconda">rminiconda</a> package.</p></li>
+<li><p>Fixed an issue where <code>virtualenv_create(..., python = "&lt;python&gt;")</code> could fail to use the requested version of Python when <code>venv</code> is not installed. (#399)</p></li>
+<li><p>Fixed an issue where iterable Python objects could not be iterated with <code>iter_next()</code> due to a missing class. (#603)</p></li>
+<li><p>Fixed an issue where Conda environments could be mis-detected as virtual environments.</p></li>
+<li><p>R functions wrapping Python functions now inherit the formal arguments as specified by Python, making autocompletion more reliable. (#573, <span class="citation" data-cites="flying-sheep">@flying-sheep</span>)</p></li>
+<li><p>Fixed an issue where attempts to query Conda for environments could fail on Windows. (#576; #575; <span class="citation" data-cites="dfalbel">@dfalbel</span>)</p></li>
+<li><p>Properly check for NULL keyword arguments in <code>call_r_function()</code>. (#562, <span class="citation" data-cites="dfalbel">@dfalbel</span>)</p></li>
+</ul>
+</section>
+<section id="reticulate-1.13" class="level1">
+<h1>reticulate 1.13</h1>
+<ul>
+<li><p>Fixed an issue where subsetting with <code>[.python.builtin.object</code> could fail when <code>convert = TRUE</code> is set on the associated Python object. (#554)</p></li>
+<li><p>Fixed an issue where the wrong definition of <code>[[.python.builtin.object</code> was being exported. (#554)</p></li>
+<li><p><code>py_install()</code> now accepts <code>python_version</code>, and can be used if a particular version of Python is required for a Conda environment. (This argument is ignored for virtual environments.) (#549)</p></li>
+<li><p>Fixed an issue where reticulate could segfault in some cases (e.g.&nbsp;when using the <code>iterate()</code> function). (#551)</p></li>
+<li><p>It is now possible to compile <code>reticulate</code> with support for debug versions of Python by setting the <code>RETICULATE_PYTHON_DEBUG</code> preprocessor define during compilation. (#548)</p></li>
+<li><p>reticulate now warns if it did not honor the user’s request to load a particular version of Python, as through e.g.&nbsp;<code>reticulate::use_python()</code>. (#545)</p></li>
+<li><p><code>py_save_object()</code> and <code>py_load_object()</code> now accept <code>...</code> arguments. (#542)</p></li>
+<li><p><code>py_install()</code> has been revamped, and now better detects available Python tooling (virtualenv vs.&nbsp;venv vs.&nbsp;Conda). (#544)</p></li>
+<li><p>reticulate now flushes stdout / stderr after calls to <code>py_run_file()</code> and <code>py_run_string()</code>.</p></li>
+<li><p>Python tuples are now converted recursively, in the same way that Python lists are. This means that the sub-elements of the tuple will be converted to R objects when possible. (#525, <span class="citation" data-cites="skeydan">@skeydan</span>)</p></li>
+<li><p>Python OrderedDict objects with non-string keys are now properly converted to R. (#516)</p></li>
+<li><p>Fixed an issue where reticulate could crash after a failed attempt to load NumPy. (#497, <span class="citation" data-cites="ecoughlan">@ecoughlan</span>)</p></li>
+</ul>
+</section>
+<section id="reticulate-1.12" class="level1">
+<h1>reticulate 1.12</h1>
+<ul>
+<li><p>Fixed an issue where Python objects within Python lists would not be converted to R objects as expected.</p></li>
+<li><p>Fixed an issue where single-row data.frames with row names could not be converted. (#468)</p></li>
+<li><p>Fixed an issue where <code>reticulate</code> could fail to query Anaconda environment names with Anaconda 3.7.</p></li>
+<li><p>Fixed an issue where vectors of R Dates were not converted correctly. (#454)</p></li>
+<li><p>Fixed an issue where R Dates could not be passed to Python functions. (#458)</p></li>
+</ul>
+</section>
+<section id="reticulate-1.11.1" class="level1">
+<h1>reticulate 1.11.1</h1>
+<ul>
+<li>Fixed a failing virtual environment test on CRAN.</li>
+</ul>
+</section>
+<section id="reticulate-1.11" class="level1">
+<h1>reticulate 1.11</h1>
+<ul>
+<li><p>Fixed an issue where attempts to activate virtual environments created with virtualenv 16.4.1 would fail. (#437)</p></li>
+<li><p>Fixed an issue where conversion of Pandas Categorical variables to R objects would fail. (#389)</p></li>
+<li><p>Textual output generated when adding items to a matplotlib plot object are now suppressed.</p></li>
+<li><p>If the last statement in a Python chunk returns a matplotlib plot object, the plot will now be auto-shown as in other environments.</p></li>
+<li><p>The reticulate function help handler now returns function arguments for Python builtin functions.</p></li>
+<li><p>Top-level Python statements can now include leading indent when submitted with <code>repl_python()</code>.</p></li>
+<li><p>The current <code>matplotlib</code> figure is now cleared as each Python chunk in an R Markdown document is run.</p></li>
+<li><p>The <code>r</code> helper object (used for evaluating R code from Python) now better handles conversion of R functions. (#383)</p></li>
+<li><p>The <code>use_virtualenv()</code> function now understands how to bind to virtual environments created by the Python <code>venv</code> module.</p></li>
+<li><p>Reticulate better handles conversions of R lists to Python, and similarly, Python lists to R. We now call <code>r_to_py()</code> on each sub-element of an R list, and similarly, <code>py_to_r()</code> on each sub-element of a Python list.</p></li>
+<li><p>Reticulate now always converts R <code>Date</code> objects into Python <code>datetime</code> objects. Note that these conversions can be inefficient – if you would prefer conversion to NumPy <code>datetime64</code> objects / arrays, you should convert your date to <code>POSIXct</code> first.</p></li>
+<li><p>Python chunks containing errors will cause execution to halt if ‘error=FALSE’ during render, conforming with the default knitr behavior for R chunks.</p></li>
+<li><p>The output of bare statements (e.g.&nbsp;<code>1 + 1</code>) is now emitted as output when using the reticulate Python engine.</p></li>
+<li><p>Remapping of Python output streams to be R can now be explicitly enabled by setting the environment variable <code>RETICULATE_REMAP_OUTPUT_STREAMS</code> to 1. (#335)</p></li>
+<li><p>Allow syntax errors in Python chunks with ‘eval = FALSE’ (#343)</p></li>
+<li><p>Avoid dropping blank lines in Python chunks (#328)</p></li>
+<li><p>Use “agg” matplotlib backend when running under RStudio Desktop (avoids crashes when attempting to generate Python plots)</p></li>
+<li><p>Add <code>as.character()</code> S3 method for Python bytes (defaults to converting using UTF-8 encoding)</p></li>
+<li><p>Add <code>py_main_thread_func()</code> for providing R callbacks to Python libraries that may invoke the function on a Python background thread.</p></li>
+<li><p>Add <code>py_to_r</code> S3 methods for Scipy sparse matrices: CSR to dgRMatrix, COO to dgTMatrix, and for all other sparse matrices, conversion via CSC/dgCMatrix.</p></li>
+</ul>
+</section>
+<section id="reticulate-1.10" class="level1">
+<h1>reticulate 1.10</h1>
+<ul>
+<li><p>Output is now properly displayed when using the <code>reticulate</code> REPL with Windows + Python 2.7.</p></li>
+<li><p>Address memory protection issues identified by rchk</p></li>
+<li><p>Make variables defined using <code>%as%</code> operator in <code>with()</code> available after execution of the with block (same behavior as Python).</p></li>
+<li><p>Check for presence of “<strong>module</strong>” property before reading in <code>as_r_class()</code></p></li>
+<li><p>Only update pip in <code>virtualenv_install()</code> when version is &lt; 8.1</p></li>
+<li><p>Support converting Python <code>OrderedDict</code> to R</p></li>
+<li><p>Support for iterating all types of Python iterable</p></li>
+<li><p>Add <code>conda_python()</code> and <code>virtualenv_python()</code> functions for finding the python binary associated with an environment.</p></li>
+</ul>
+</section>
+<section id="reticulate-1.9" class="level1">
+<h1>reticulate 1.9</h1>
+<ul>
+<li><p>Detect python 3 in environments where there is no python 2 (e.g.&nbsp;Ubuntu 18.04)</p></li>
+<li><p>Always call r_to_py S3 method when converting objects from Python to R</p></li>
+<li><p>Handle NULL module name when determining R class for Python objects</p></li>
+<li><p>Convert RAW vectors to Python bytearray; Convert Python bytearray to RAW</p></li>
+<li><p>Use importlib for detecting modules (rather than imp) for Python &gt;= 3.4</p></li>
+<li><p>Close text connection used for reading Python configuration probe</p></li>
+</ul>
+</section>
+<section id="reticulate-1.8" class="level1">
+<h1>reticulate 1.8</h1>
+<ul>
+<li><p><code>source_python()</code> now flushes stdout and stderr after running the associated Python script, to ensure that <code>print()</code>-ed output is output to the console. (#284)</p></li>
+<li><p>Fixed an issue where logical R matrices would not be converted correctly to their NumPy counterpart. (#280)</p></li>
+<li><p>Fixed an issue where Python chunks containing multiple statements on the same line would be evaluated and printed multiple times.</p></li>
+<li><p>Added <code>py_get_item()</code>, <code>py_set_item()</code>, and <code>py_del_item()</code> as lower-level APIs for directly accessing the items of e.g.&nbsp;a Python dictionary or a Pandas DataFrame.</p></li>
+<li><p>Fix issue with Pandas column names that clash with built in methods (e.g.&nbsp;‘pop’)</p></li>
+<li><p>Improve default <code>str()</code> output for Python objects (print <code>__dict__</code> if available)</p></li>
+</ul>
+</section>
+<section id="reticulate-1.7" class="level1">
+<h1>reticulate 1.7</h1>
+<ul>
+<li><p>Improved filtering of non-numeric characters in Python / NumPy versions.</p></li>
+<li><p>Added <code>py_func()</code> to wrap an R function in a Python function with the same signature as that of the original R function.</p></li>
+<li><p>Added support for conversion between <code>Matrix::dgCMatrix</code> objects in R and <code>Scipy</code> CSC matrices in Python.</p></li>
+<li><p><code>source_python()</code> can now source a Python script from a URL into R environments.</p></li>
+<li><p>Always run <code>source_python()</code> in the main Python module.</p></li>
+<li><p><code>py_install()</code> function for installing Python packages into virtualenvs and conda envs</p></li>
+<li><p>Automatically create conda environment for <code>conda_install()</code></p></li>
+<li><p>Removed <code>delay_load</code> parameter from <code>import_from_path()</code></p></li>
+</ul>
+</section>
+<section id="reticulate-1.6" class="level1">
+<h1>reticulate 1.6</h1>
+<ul>
+<li><p><code>repl_python()</code> function implementing a lightweight Python REPL in R.</p></li>
+<li><p>Support for converting Pandas objects (<code>Index</code>, <code>Series</code>, <code>DataFrame</code>)</p></li>
+<li><p>Support for converting Python <code>datetime</code> objects.</p></li>
+<li><p><code>py_dict()</code> function to enable creation of dictionaries based on lists of keys and values.</p></li>
+<li><p>Provide default base directory (e.g.&nbsp;‘~/.virtualenvs’) for environments specified by name in <code>use_virtualenv()</code>.</p></li>
+<li><p>Fail when environment not found with <code>use_condaenv(..., required = TRUE)</code></p></li>
+<li><p>Ensure that <code>use_*</code> python version is satisfied when using <code>eng_python()</code></p></li>
+<li><p>Forward <code>required</code> argument from <code>use_virtualenv()</code> and <code>use_condaenv()</code></p></li>
+<li><p>Fix leak which occurred when assigning R objects into Python containers</p></li>
+<li><p>Add support for Conda Forge (enabled by default) to <code>conda_install()</code></p></li>
+<li><p>Added functions for managing Python virtual environments (virtualenv)</p></li>
+</ul>
+</section>
+<section id="reticulate-1.5" class="level1">
+<h1>reticulate 1.5</h1>
+<ul>
+<li><p>Remove implicit documentation extraction for Python classes</p></li>
+<li><p>Add <code>Library\bin</code> to PATH on Windows to ensure Anaconda can find MKL</p></li>
+<li><p>New <code>source_python()</code> function for sourcing Python scripts into R environments.</p></li>
+</ul>
+</section>
+<section id="reticulate-1.4" class="level1">
+<h1>reticulate 1.4</h1>
+<ul>
+<li><p>Support for <code>RETICULATE_DUMP_STACK_TRACE</code> environment variable which can be set to the number of milliseconds in which to output into stderr the call stacks from all running threads.</p></li>
+<li><p>Provide hook to change target module when delay loading</p></li>
+<li><p>Scan for conda environments in system-level installations</p></li>
+<li><p>Support for miniconda environments</p></li>
+<li><p>Implement <code>eval</code>, <code>echo</code>, and <code>include</code> knitr chunk options for Python engine</p></li>
+</ul>
+</section>
+<section id="reticulate-1.3.1" class="level1">
+<h1>reticulate 1.3.1</h1>
+<ul>
+<li>Bugfix: ensure single-line Python chunks that produce no output still have source code emitted.</li>
+</ul>
+</section>
+<section id="reticulate-1.3" class="level1">
+<h1>reticulate 1.3</h1>
+<ul>
+<li><p>Use existing instance of Python when reticulate is loaded within an embedded Python environment (e.g.&nbsp;rpy2, rice, etc.)</p></li>
+<li><p>Force use of Python specified in PYTHON_SESSION_INITIALIZED (defined by rpy2)</p></li>
+<li><p>Define R_SESSION_INITIALIZED (used by rpy2)</p></li>
+<li><p>Force use of Python when <code>required = TRUE</code> in <code>use_python</code> functions</p></li>
+<li><p>Force use of Python specified by RETICULATE_PYTHON</p></li>
+<li><p><code>dict</code>: Don’t scan parent frame for Python objects if a single unnamed list is passed.</p></li>
+<li><p>Wait as long as required for scheduling generator calls on the main thread</p></li>
+<li><p>Refine stripping of object addresses from output of <code>py_str()</code> method</p></li>
+<li><p>Added <code>py_id()</code> function to get globally unique ids for Python objects</p></li>
+<li><p>Added <code>py_len()</code> function and S3 <code>length()</code> method for Python lists (already had <code>length()</code> methods for dicts, tuples, and NumPy arrays).</p></li>
+<li><p>Exported <code>py</code> object (reference to Python main module)</p></li>
+<li><p>Added <code>eng_python()</code> (knitr engine for Python chunks)</p></li>
+<li><p>Improved compatibility with strings containing high unicode characters when running under Python 2</p></li>
+<li><p>Remove <code>dim</code> methods for NumPy arrays (semantics of NumPy reshaping are different from R reshaping)</p></li>
+<li><p>Added <code>array_reshape</code> function for reshaping R arrays using NumPy (row-major) semantics.</p></li>
+<li><p>Provide mechanism for custom R wrapper objects for Python objects</p></li>
+<li><p>Added interface to pickle (<code>py_save_object()</code> and <code>py_load_object()</code>)</p></li>
+<li><p>Catch and print errors which occur in generator functions</p></li>
+<li><p>Write using Rprintf when providing custom Python output streams (enables correct handling of terminal control characters)</p></li>
+<li><p>Implement <code>isatty</code> when providing custom Python output streams</p></li>
+</ul>
+</section>
+<section id="reticulate-1.2" class="level1">
+<h1>reticulate 1.2</h1>
+<ul>
+<li><p>Add <code>np_array</code> function for creating NumPy arrays and converting the data type, dimensions, and in-memory ordering of existing NumPy arrays.</p></li>
+<li><p>Add <code>dim</code> and <code>length</code> functions for NumPy arrays</p></li>
+<li><p>Add <code>py_set_seed</code> function for setting Python and NumPy random seeds.</p></li>
+<li><p>Search in additional locations for Anaconda on Linux/Mac</p></li>
+<li><p>Improved support for UTF-8 conversions (always use UTF-8 when converting from Python to R)</p></li>
+<li><p>Ignore private (“_” prefixed) attributes of dictionaries for .DollarNames</p></li>
+<li><p>Provide “`function`” rather than “function” in completions.</p></li>
+<li><p>Fail gracefully if call to conda in <code>conda_list</code> results in an error</p></li>
+<li><p>Add <code>pip_ignore_installed</code> option to <code>conda_install</code> function.</p></li>
+</ul>
+</section>
+<section id="reticulate-1.1" class="level1">
+<h1>reticulate 1.1</h1>
+<ul>
+<li><p>Allow <code>dict()</code> function to accept keys with mixed alpha/numeric characters</p></li>
+<li><p>Use <code>conda_list()</code> to discover conda environments on Windows (slower but much more reliable than scanning the filesystem)</p></li>
+<li><p>Add interface for registering F1 help handlers for Python modules</p></li>
+<li><p>Provide virtual/conda env hint mechanism for delay loaded imports</p></li>
+</ul>
+</section>
+<section id="reticulate-1.0" class="level1">
+<h1>reticulate 1.0</h1>
+<ul>
+<li><p>Search WORKON_HOME (used by virtualenv_wrapper) for Python environments</p></li>
+<li><p>Support <code>priority</code> field for delay loaded modules.</p></li>
+<li><p>Use json output from conda_list (handle spaces in path of conda env)</p></li>
+<li><p>Look for callable before iterable when converting Python objects to R</p></li>
+<li><p>Correct propagation of errors in R functions called from Python</p></li>
+<li><p>Support for generators (creating Python iterators from R functions)</p></li>
+<li><p>Changed default <code>completed</code> value for <code>iter_next()</code> to <code>NULL</code> (was <code>NA</code>)</p></li>
+<li><p>Support for converting 16-bit floats (NPY_HALF) to R</p></li>
+<li><p>Don’t throw error when probing Python &lt;= 2.6</p></li>
+<li><p>Copy Python dictionary before converting to R named list (fixes issue with dictionaries that are mutated during iteration, e.g.&nbsp;sys.modules)</p></li>
+<li><p>Ensure that existing warning filters aren’t reset by py_suppress_warnings</p></li>
+</ul>
+</section>
+<section id="reticulate-0.9" class="level1">
+<h1>reticulate 0.9</h1>
+<ul>
+<li><p>Detect older versions of Anaconda during registry scanning.</p></li>
+<li><p>Don’t probe python versions on windows when no executable is found</p></li>
+<li><p>Poll for interrupts every 500ms rather than 100ms</p></li>
+<li><p>Provide sys.stdout and sys.stderr when they are None (e.g.&nbsp;in R GUI)</p></li>
+<li><p>Add Scripts directory to PATH on Windows</p></li>
+<li><p>Add iter_next function for element-by-element access to iterators</p></li>
+<li><p>Eliminate special print method for iterators/generators</p></li>
+<li><p>Added <code>py_help()</code> function for printing documentation on Python objects</p></li>
+<li><p>Added <code>conda_version()</code> function.</p></li>
+<li><p>Search <code>dict()</code> parent frames for symbols; only use symbols which inherit from python.builtin.object as keys.</p></li>
+</ul>
+</section>
+<section id="reticulate-0.8" class="level1">
+<h1>reticulate 0.8</h1>
+<ul>
+<li><p>Add <code>import_from_path()</code> function for importing Python modules from the filesystem.</p></li>
+<li><p>Add <code>py_discover_config()</code> function to determine which versions of Python will be discovered and which one will be used by reticulate.</p></li>
+<li><p>Add <code>py_function_docs()</code> amd <code>py_function_wrapper()</code> utility functions for scaffolding R wrappers for Python functions.</p></li>
+<li><p>Add <code>py_last_error()</code> function for retrieving last Python error.</p></li>
+<li><p>Convert 0-dimension NumPy arrays (scalars) to single element R vectors</p></li>
+<li><p>Convert “callable” Python objects to R functions</p></li>
+<li><p>Automatically add Python bin directory to system PATH for consistent version usage in reticulate and calls to system</p></li>
+<li><p>Added <code>length()</code> method for tuple objects</p></li>
+<li><p>Enable specification of <code>__name__</code> for R functions converted to Python functions.</p></li>
+<li><p>Give priority to the first registered delay load module (previously the last registered module was given priority)</p></li>
+<li><p>Add additional safety checks to detect use of NULL xptr objects (i.e.&nbsp;objects from a previous session). This should mean that S3 methods no longer need to check whether they are handling an xptr.</p></li>
+<li><p>Added <code>py_eval()</code> function for evaluating simple Python statements.</p></li>
+<li><p>Add <code>local</code> option to <code>py_run_string()</code> and <code>py_run_file()</code>. Modify behavior to return local execution dictionary (rather than a reference to the main module).</p></li>
+<li><p>Use <code>PyImport_Import</code> rather than <code>PyImport_ImportModule</code> for <code>import()</code></p></li>
+<li><p>Added ability to customize mapping of Python classes to R classes via the <code>as</code> argument to <code>import()</code> and the <code>register_class_filter()</code> function</p></li>
+<li><p>Added separate <code>on_load</code> and <code>on_error</code> functions for <code>delay_load</code></p></li>
+<li><p>Scan customary root directories for virtualenv installations</p></li>
+<li><p>Allow calling <code>__getitem__</code> via <code>[[</code> operator (zero-based to match Python style indexing)</p></li>
+<li><p>Added <code>conda_*</code> family of functions for using conda utilities from within R.</p></li>
+<li><p>Implement comparison operators (e.g.&nbsp;<code>==</code>, <code>&gt;=</code>, etc.) for Python objects</p></li>
+<li><p>Implement <code>names()</code> generic for Python objects</p></li>
+<li><p>Improve performance for marshalling of large Python dictionaries and iterators that return large numbers of items.</p></li>
+<li><p>Implement <code>str</code> methods for Python List, Dict, and Tuple (to prevent printing of very large collections via default <code>str</code> method)</p></li>
+<li><p>Use <code>grepl()</code> rather than <code>endsWith()</code> for compatibility with R &lt;= 3.2</p></li>
+<li><p>Use <code>inspect.getmro</code> rather than <code>__bases__</code> for enumerating the base classes of Python objects.</p></li>
+<li><p>Fix <code>PROTECT</code>/<code>UNPROTECT</code> issue detected by CRAN</p></li>
+<li><p>Correct conversion of strings with Unicode characters on Windows</p></li>
+<li><p>Fix incompatibility with system-wide Python installations on Windows</p></li>
+<li><p>Fix issue with Python dictionary keys that shared names with primitive R functions (don’t check environment inheritance chain when looking for dictionary key objects by name).</p></li>
+<li><p>Propagate <code>convert</code> parameter for modules with <code>delay_load</code></p></li>
+</ul>
+</section>
+<section id="reticulate-0.7" class="level1">
+<h1>reticulate 0.7</h1>
+<ul>
+<li>Initial CRAN release</li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/swayam-singh123\.github\.io\/Quarto-Penguin-Analysis\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

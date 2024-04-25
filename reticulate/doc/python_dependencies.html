@@ -1,53 +1,26 @@
 <!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
-<html>
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.553">
 
-<head>
-
-<meta charset="utf-8" />
-<meta name="generator" content="pandoc" />
-<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
-
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-
-<title>Managing an R Package’s Python Dependencies</title>
-
-<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
-// be compatible with the behavior of Pandoc < 2.8).
-document.addEventListener('DOMContentLoaded', function(e) {
-  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
-  var i, h, a;
-  for (i = 0; i < hs.length; i++) {
-    h = hs[i];
-    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
-    a = h.attributes;
-    while (a.length > 0) h.removeAttribute(a[0].name);
-  }
-});
-</script>
-
-<style type="text/css">
+<title>Final Project - Managing an R Package’s Python Dependencies</title>
+<style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-span.underline{text-decoration: underline;}
-div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
-</style>
-
-
-
-<style type="text/css">
-code {
-white-space: pre;
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
 }
-.sourceCode {
-overflow: visible;
-}
-</style>
-<style type="text/css" data-origin="pandoc">
+/* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -63,462 +36,224 @@ pre > code.sourceCode { white-space: pre-wrap; }
 pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
-{ counter-reset: source-line 0; }
+  { counter-reset: source-line 0; }
 pre.numberSource code > span
-{ position: relative; left: -4em; counter-increment: source-line; }
+  { position: relative; left: -4em; counter-increment: source-line; }
 pre.numberSource code > span > a:first-child::before
-{ content: counter(source-line);
-position: relative; left: -1em; text-align: right; vertical-align: baseline;
-border: none; display: inline-block;
--webkit-touch-callout: none; -webkit-user-select: none;
--khtml-user-select: none; -moz-user-select: none;
--ms-user-select: none; user-select: none;
-padding: 0 4px; width: 4em;
-color: #aaaaaa;
-}
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
 div.sourceCode
-{ }
+  {   }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } 
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
-code span.at { color: #7d9029; } 
-code span.bn { color: #40a070; } 
-code span.bu { color: #008000; } 
-code span.cf { color: #007020; font-weight: bold; } 
-code span.ch { color: #4070a0; } 
-code span.cn { color: #880000; } 
-code span.co { color: #60a0b0; font-style: italic; } 
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
-code span.do { color: #ba2121; font-style: italic; } 
-code span.dt { color: #902000; } 
-code span.dv { color: #40a070; } 
-code span.er { color: #ff0000; font-weight: bold; } 
-code span.ex { } 
-code span.fl { color: #40a070; } 
-code span.fu { color: #06287e; } 
-code span.im { color: #008000; font-weight: bold; } 
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
-code span.kw { color: #007020; font-weight: bold; } 
-code span.op { color: #666666; } 
-code span.ot { color: #007020; } 
-code span.pp { color: #bc7a00; } 
-code span.sc { color: #4070a0; } 
-code span.ss { color: #bb6688; } 
-code span.st { color: #4070a0; } 
-code span.va { color: #19177c; } 
-code span.vs { color: #4070a0; } 
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
 </style>
-<script>
-// apply pandoc div.sourceCode style to pre.sourceCode instead
-(function() {
-  var sheets = document.styleSheets;
-  for (var i = 0; i < sheets.length; i++) {
-    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
-    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    var j = 0;
-    while (j < rules.length) {
-      var rule = rules[j];
-      // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
-        j++;
-        continue;
-      }
-      var style = rule.style.cssText;
-      // check if color or background-color is set
-      if (rule.style.color === '' && rule.style.backgroundColor === '') {
-        j++;
-        continue;
-      }
-      // replace div.sourceCode by a pre.sourceCode rule
-      sheets[i].deleteRule(j);
-      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
-    }
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
-})();
-</script>
+}</script>
 
 
-
-
-<style type="text/css">body {
-background-color: #fff;
-margin: 1em auto;
-max-width: 700px;
-overflow: visible;
-padding-left: 2em;
-padding-right: 2em;
-font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-font-size: 14px;
-line-height: 1.35;
-}
-#TOC {
-clear: both;
-margin: 0 0 10px 10px;
-padding: 4px;
-width: 400px;
-border: 1px solid #CCCCCC;
-border-radius: 5px;
-background-color: #f6f6f6;
-font-size: 13px;
-line-height: 1.3;
-}
-#TOC .toctitle {
-font-weight: bold;
-font-size: 15px;
-margin-left: 5px;
-}
-#TOC ul {
-padding-left: 40px;
-margin-left: -1.5em;
-margin-top: 5px;
-margin-bottom: 5px;
-}
-#TOC ul ul {
-margin-left: -2em;
-}
-#TOC li {
-line-height: 16px;
-}
-table {
-margin: 1em auto;
-border-width: 1px;
-border-color: #DDDDDD;
-border-style: outset;
-border-collapse: collapse;
-}
-table th {
-border-width: 2px;
-padding: 5px;
-border-style: inset;
-}
-table td {
-border-width: 1px;
-border-style: inset;
-line-height: 18px;
-padding: 5px 5px;
-}
-table, table th, table td {
-border-left-style: none;
-border-right-style: none;
-}
-table thead, table tr.even {
-background-color: #f7f7f7;
-}
-p {
-margin: 0.5em 0;
-}
-blockquote {
-background-color: #f6f6f6;
-padding: 0.25em 0.75em;
-}
-hr {
-border-style: solid;
-border: none;
-border-top: 1px solid #777;
-margin: 28px 0;
-}
-dl {
-margin-left: 0;
-}
-dl dd {
-margin-bottom: 13px;
-margin-left: 13px;
-}
-dl dt {
-font-weight: bold;
-}
-ul {
-margin-top: 0;
-}
-ul li {
-list-style: circle outside;
-}
-ul ul {
-margin-bottom: 0;
-}
-pre, code {
-background-color: #f7f7f7;
-border-radius: 3px;
-color: #333;
-white-space: pre-wrap; 
-}
-pre {
-border-radius: 3px;
-margin: 5px 0px 10px 0px;
-padding: 10px;
-}
-pre:not([class]) {
-background-color: #f7f7f7;
-}
-code {
-font-family: Consolas, Monaco, 'Courier New', monospace;
-font-size: 85%;
-}
-p > code, li > code {
-padding: 2px 0px;
-}
-div.figure {
-text-align: center;
-}
-img {
-background-color: #FFFFFF;
-padding: 2px;
-border: 1px solid #DDDDDD;
-border-radius: 3px;
-border: 1px solid #CCCCCC;
-margin: 0 5px;
-}
-h1 {
-margin-top: 0;
-font-size: 35px;
-line-height: 40px;
-}
-h2 {
-border-bottom: 4px solid #f7f7f7;
-padding-top: 10px;
-padding-bottom: 2px;
-font-size: 145%;
-}
-h3 {
-border-bottom: 2px solid #f7f7f7;
-padding-top: 10px;
-font-size: 120%;
-}
-h4 {
-border-bottom: 1px solid #f7f7f7;
-margin-left: 8px;
-font-size: 105%;
-}
-h5, h6 {
-border-bottom: 1px solid #ccc;
-font-size: 105%;
-}
-a {
-color: #0033dd;
-text-decoration: none;
-}
-a:hover {
-color: #6666ff; }
-a:visited {
-color: #800080; }
-a:visited:hover {
-color: #BB00BB; }
-a[href^="http:"] {
-text-decoration: underline; }
-a[href^="https:"] {
-text-decoration: underline; }
-
-code > span.kw { color: #555; font-weight: bold; } 
-code > span.dt { color: #902000; } 
-code > span.dv { color: #40a070; } 
-code > span.bn { color: #d14; } 
-code > span.fl { color: #d14; } 
-code > span.ch { color: #d14; } 
-code > span.st { color: #d14; } 
-code > span.co { color: #888888; font-style: italic; } 
-code > span.ot { color: #007020; } 
-code > span.al { color: #ff0000; font-weight: bold; } 
-code > span.fu { color: #900; font-weight: bold; } 
-code > span.er { color: #a61717; background-color: #e3d2d2; } 
-</style>
-
-
-
-
+<link rel="stylesheet" href="styles.css">
 </head>
 
-<body>
+<body class="nav-fixed">
 
-
-
-
-<h1 class="title toc-ignore">Managing an R Package’s Python
-Dependencies</h1>
-
-
-
-<p>If you’re writing an R package that uses <code>reticulate</code> as
-an interface to a Python session, you likely also need one or more
-Python packages installed on the user’s machine for your package to
-function. In addition, you’d likely prefer to insulate users from
-details around how Python + <code>reticulate</code> are configured as
-much as possible. This vignette documents a few approaches for
-accomplishing these goals.</p>
-<div id="creating-a-pit-of-success" class="section level2">
-<h2>Creating a Pit Of Success</h2>
-<p>Overall, the goal of an R package author using reticulate is to
-create a default experience that works reliably and doesn’t require
-users to intervene or to have a sophisticated understanding of Python
-installation management. At the same time, it should also be easy to
-adjust the default behavior. There are two key questions to keep in
-mind:</p>
-<ul>
-<li>What will the default behavior be when the user expresses no
-preference for any specific Python installation, and</li>
-<li>How can users express a preference for a specific Python
-installation that is satisfiable, (and why would they want to).</li>
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Final Project</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.qmd"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../eda.html"> 
+<span class="menu-text">Penguins EDA</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../Model.qmd"> 
+<span class="menu-text"></span></a>
+  </li>  
 </ul>
-<p>Packages like <a href="https://tensorflow.rstudio.com">tensorflow</a>
-approach this task this by providing a helper function,
-<code>tensorflow::install_tensorflow()</code>, and documenting that
-users can call this function to prepare the environment. For
-example:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(tensorflow)</span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">install_tensorflow</span>()</span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="co"># use tensorflow</span></span></code></pre></div>
-<p>As a best practice, an R packages’ Python dependencies should default
-to installing in an isolated virtual environment specifically designated
-for the R package. This minimizes the risk of inadvertently disrupting
-another Python installation on the user’s system.</p>
-<p>As an example, <code>install_tensorflow()</code> takes an argument
-with a default value: <code>envname = &quot;r-tensorflow&quot;</code>. This
-default value ensures that <code>install_tensorflow()</code> will
-install into an environment named <code>&quot;r-tensorflow&quot;</code>,
-optionally creating it as needed.</p>
-<p>The counterpart to the default behavior of
-<code>install_tensorflow()</code> is the work that happens in
-<code>tensorflow::.onLoad()</code>, where the R package expresses a
-preference, on behalf of the user, to use the <code>r-tensorflow</code>
-environment if it exists. Inside the package, these two parts work
-together to create a “pit of success”:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>install_tensorflow <span class="ot">&lt;-</span> <span class="cf">function</span>(..., <span class="at">envname =</span> <span class="st">&quot;r-tensorflow&quot;</span>) {</span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  reticulate<span class="sc">::</span><span class="fu">py_install</span>(<span class="st">&quot;tensorflow&quot;</span>, <span class="at">envname =</span> envname, ...)</span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>}</span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a></span>
-<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a></span>
-<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>.onLoad <span class="ot">&lt;-</span> <span class="cf">function</span>(...) {</span>
-<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>  <span class="fu">use_virtualenv</span>(<span class="st">&quot;r-tensorflow&quot;</span>, <span class="at">required =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>}</span></code></pre></div>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#creating-a-pit-of-success" id="toc-creating-a-pit-of-success" class="nav-link active" data-scroll-target="#creating-a-pit-of-success">Creating a Pit Of Success</a></li>
+  <li><a href="#managing-multiple-package-dependencies." id="toc-managing-multiple-package-dependencies." class="nav-link" data-scroll-target="#managing-multiple-package-dependencies.">Managing Multiple Package Dependencies.</a></li>
+  <li><a href="#automatic-configuration" id="toc-automatic-configuration" class="nav-link" data-scroll-target="#automatic-configuration">Automatic Configuration</a>
+  <ul class="collapse">
+  <li><a href="#using-configreticulate" id="toc-using-configreticulate" class="nav-link" data-scroll-target="#using-configreticulate">Using Config/reticulate</a></li>
+  <li><a href="#installation" id="toc-installation" class="nav-link" data-scroll-target="#installation">Installation</a></li>
+  <li><a href="#onload-configuration" id="toc-onload-configuration" class="nav-link" data-scroll-target="#onload-configuration">.onLoad Configuration</a></li>
+  </ul></li>
+  <li><a href="#versions" id="toc-versions" class="nav-link" data-scroll-target="#versions">Versions</a></li>
+  <li><a href="#format" id="toc-format" class="nav-link" data-scroll-target="#format">Format</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Managing an R Package’s Python Dependencies</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>If you’re writing an R package that uses <code>reticulate</code> as an interface to a Python session, you likely also need one or more Python packages installed on the user’s machine for your package to function. In addition, you’d likely prefer to insulate users from details around how Python + <code>reticulate</code> are configured as much as possible. This vignette documents a few approaches for accomplishing these goals.</p>
+<section id="creating-a-pit-of-success" class="level2">
+<h2 class="anchored" data-anchor-id="creating-a-pit-of-success">Creating a Pit Of Success</h2>
+<p>Overall, the goal of an R package author using reticulate is to create a default experience that works reliably and doesn’t require users to intervene or to have a sophisticated understanding of Python installation management. At the same time, it should also be easy to adjust the default behavior. There are two key questions to keep in mind:</p>
+<ul>
+<li>What will the default behavior be when the user expresses no preference for any specific Python installation, and</li>
+<li>How can users express a preference for a specific Python installation that is satisfiable, (and why would they want to).</li>
+</ul>
+<p>Packages like <a href="https://tensorflow.rstudio.com">tensorflow</a> approach this task this by providing a helper function, <code>tensorflow::install_tensorflow()</code>, and documenting that users can call this function to prepare the environment. For example:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tensorflow)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install_tensorflow</span>()</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># use tensorflow</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>As a best practice, an R packages’ Python dependencies should default to installing in an isolated virtual environment specifically designated for the R package. This minimizes the risk of inadvertently disrupting another Python installation on the user’s system.</p>
+<p>As an example, <code>install_tensorflow()</code> takes an argument with a default value: <code>envname = "r-tensorflow"</code>. This default value ensures that <code>install_tensorflow()</code> will install into an environment named <code>"r-tensorflow"</code>, optionally creating it as needed.</p>
+<p>The counterpart to the default behavior of <code>install_tensorflow()</code> is the work that happens in <code>tensorflow::.onLoad()</code>, where the R package expresses a preference, on behalf of the user, to use the <code>r-tensorflow</code> environment if it exists. Inside the package, these two parts work together to create a “pit of success”:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>install_tensorflow <span class="ot">&lt;-</span> <span class="cf">function</span>(..., <span class="at">envname =</span> <span class="st">"r-tensorflow"</span>) {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  reticulate<span class="sc">::</span><span class="fu">py_install</span>(<span class="st">"tensorflow"</span>, <span class="at">envname =</span> envname, ...)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>.onLoad <span class="ot">&lt;-</span> <span class="cf">function</span>(...) {</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">use_virtualenv</span>(<span class="st">"r-tensorflow"</span>, <span class="at">required =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The R package:</p>
 <ul>
-<li><p>in <code>.onLoad()</code> expresses to reticulate a soft
-preference for an environment named “r-tensorflow”, and</p></li>
-<li><p>with <code>install_tensorflow()</code>, provides a convenient way
-to make the optional hint in <code>.onLoad()</code> actionable, by
-actually creating the “r-tensorflow” environment.</p></li>
+<li><p>in <code>.onLoad()</code> expresses to reticulate a soft preference for an environment named “r-tensorflow”, and</p></li>
+<li><p>with <code>install_tensorflow()</code>, provides a convenient way to make the optional hint in <code>.onLoad()</code> actionable, by actually creating the “r-tensorflow” environment.</p></li>
 </ul>
-<p>With this setup, the default experience is for the user to call
-<code>install_tensorflow()</code> once (creating a “r-tensorflow”
-environment). Subsequently, calls to <code>library(tensorflow)</code>
-will cause reticulate to use the <code>r-tensorflow</code> environment,
-and for everything to “just-work”. The risk of disrupting another Python
-environment, or of this one being disrupting, is minimal, since the
-environment is designated for the R package. At the same time, if the
-environment is disrupted at some time later (perhaps because something
-with conflicting Python dependencies was manually installed), the user
-can easily revert to a working state by calling
-<code>install_tensorflow()</code>.</p>
-<p>Python environments can occasionally get into a broken state when
-conflicting package versions are installed, and the most reliable way to
-get back to a working state is to delete the environment and start over
-with a fresh one. For this reason, <code>install_tensorflow()</code>
-removes any pre-existing “r-tensorflow” python environments first.
-Deleting a Python environment however is not something to be done
-lightly, so the default is to only delete the default “r-tensorflow”
-environment. Here is an example of the helper
-<code>install_tensorflow()</code> with the “reset” behavior.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co">#&#39; @importFrom reticulate py_install virtualenv_exists virtualenv_remove</span></span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>install_tensorflow <span class="ot">&lt;-</span></span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>  <span class="cf">function</span>(...,</span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>           <span class="at">envname =</span> <span class="st">&quot;r-tensorflow&quot;</span>,</span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>           <span class="at">new_env =</span> <span class="fu">identical</span>(envname, <span class="st">&quot;r-tensorflow&quot;</span>)) {</span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a></span>
-<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>  <span class="cf">if</span>(new_env <span class="sc">&amp;&amp;</span> <span class="fu">virtualenv_exists</span>(envname))</span>
-<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>    <span class="fu">virtualenv_remove</span>(envname)</span>
-<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a></span>
-<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>  <span class="fu">py_install</span>(<span class="at">packages =</span> <span class="st">&quot;tensorflow&quot;</span>, <span class="at">envname =</span> envname, ...)</span>
-<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>}</span></code></pre></div>
-</div>
-<div id="managing-multiple-package-dependencies." class="section level2">
-<h2>Managing Multiple Package Dependencies.</h2>
-<p>One drawback of the isolated-package-environments approach is that if
-multiple R packages using reticulate are in use, then those packages
-won’t all be able to use their preferred Python environment in the same
-R session (since there can only be one active Python environment at a
-time within an R session). To resolve this, users will have to take a
-slightly more active role in managing their python environments.
-However, this can be as simple as supplying a unique environment
-name.</p>
-<p>The most straightforward approach is for users to create a dedicated
-python environment for a specific project. For example, a user can
-create a virtual environment in the project directory, like this:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>envname <span class="ot">&lt;-</span> <span class="st">&quot;./venv&quot;</span></span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>tensorflow<span class="sc">::</span><span class="fu">install_tensorflow</span>(<span class="at">envname =</span> envname)</span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>pysparklyr<span class="sc">::</span><span class="fu">install_pyspark</span>(<span class="at">envname =</span> envname)</span></code></pre></div>
-<p>As described in the <a href="versions.html">Order of Python
-Discovery</a> guide, reticulate will automatically discover and use a
-Python virtual environment in the current working directory like this.
-Alternatively, if the environment exists outside the project directory,
-the user could then place a .Renviron or .Rprofile file in the project
-directory, ensuring that reticulate will use always use the python
-configured for that project. For example, an .Renviron file in the
-project directory could contain:</p>
+<p>With this setup, the default experience is for the user to call <code>install_tensorflow()</code> once (creating a “r-tensorflow” environment). Subsequently, calls to <code>library(tensorflow)</code> will cause reticulate to use the <code>r-tensorflow</code> environment, and for everything to “just-work”. The risk of disrupting another Python environment, or of this one being disrupting, is minimal, since the environment is designated for the R package. At the same time, if the environment is disrupted at some time later (perhaps because something with conflicting Python dependencies was manually installed), the user can easily revert to a working state by calling <code>install_tensorflow()</code>.</p>
+<p>Python environments can occasionally get into a broken state when conflicting package versions are installed, and the most reliable way to get back to a working state is to delete the environment and start over with a fresh one. For this reason, <code>install_tensorflow()</code> removes any pre-existing “r-tensorflow” python environments first. Deleting a Python environment however is not something to be done lightly, so the default is to only delete the default “r-tensorflow” environment. Here is an example of the helper <code>install_tensorflow()</code> with the “reset” behavior.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#' @importFrom reticulate py_install virtualenv_exists virtualenv_remove</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>install_tensorflow <span class="ot">&lt;-</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">function</span>(...,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">envname =</span> <span class="st">"r-tensorflow"</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">new_env =</span> <span class="fu">identical</span>(envname, <span class="st">"r-tensorflow"</span>)) {</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(new_env <span class="sc">&amp;&amp;</span> <span class="fu">virtualenv_exists</span>(envname))</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">virtualenv_remove</span>(envname)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">py_install</span>(<span class="at">packages =</span> <span class="st">"tensorflow"</span>, <span class="at">envname =</span> envname, ...)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="managing-multiple-package-dependencies." class="level2">
+<h2 class="anchored" data-anchor-id="managing-multiple-package-dependencies.">Managing Multiple Package Dependencies.</h2>
+<p>One drawback of the isolated-package-environments approach is that if multiple R packages using reticulate are in use, then those packages won’t all be able to use their preferred Python environment in the same R session (since there can only be one active Python environment at a time within an R session). To resolve this, users will have to take a slightly more active role in managing their python environments. However, this can be as simple as supplying a unique environment name.</p>
+<p>The most straightforward approach is for users to create a dedicated python environment for a specific project. For example, a user can create a virtual environment in the project directory, like this:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>envname <span class="ot">&lt;-</span> <span class="st">"./venv"</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>tensorflow<span class="sc">::</span><span class="fu">install_tensorflow</span>(<span class="at">envname =</span> envname)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>pysparklyr<span class="sc">::</span><span class="fu">install_pyspark</span>(<span class="at">envname =</span> envname)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>As described in the <a href="versions.html">Order of Python Discovery</a> guide, reticulate will automatically discover and use a Python virtual environment in the current working directory like this. Alternatively, if the environment exists outside the project directory, the user could then place a .Renviron or .Rprofile file in the project directory, ensuring that reticulate will use always use the python configured for that project. For example, an .Renviron file in the project directory could contain:</p>
 <pre><code>RETICULATE_PYTHON_ENV=~/my/project/venv</code></pre>
 <p>Or a .Rprofile in the project directory could contain:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">Sys.setenv</span>(<span class="st">&quot;RETICULATE_PYTHON_ENV&quot;</span> <span class="ot">=</span> <span class="st">&quot;~/my/project/venv&quot;</span>)</span></code></pre></div>
-<p>This approach minimizes the risk that an existing, already working,
-Python environment will accidentally be broken by installing packages,
-due to inadvertently upgrading or downgrading other Python packages
-already installed in the environment.</p>
-<p>Another approach is for users to install your R packages Python
-dependencies into another Python environment that is already on the
-search path. For example, users can <em>opt-in</em> to installing into
-the default <code>r-reticulate</code> venv:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>tensorflow<span class="sc">::</span><span class="fu">install_tensorflow</span>(<span class="at">envname =</span> <span class="st">&quot;r-reticulate&quot;</span>)</span></code></pre></div>
-<p>Or they can install one packages dependencies into another packages
-default environment. For example, installing spark into the default
-“r-tensorflow” environment:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>tensorflow<span class="sc">::</span><span class="fu">install_tensorflow</span>() <span class="co"># creates an &quot;r-tensorflow&quot; env</span></span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>pysparklyr<span class="sc">::</span><span class="fu">install_pyspark</span>(<span class="at">envname =</span> <span class="st">&quot;r-tensorflow&quot;</span>)</span></code></pre></div>
-<p>This approach—exporting a installation helper function that defaults
-to a particular environment, and a hint in <code>.onLoad()</code> to use
-that environment—is one way to create a “pit-of-success”. It encourages
-a default workflow that is robust and reliable, especially for users
-not-yet familiar with the mechanics of Python installation management.
-At the same time, an installation helper function empowers users to
-manage Python environments through simply providing an environment name.
-It makes it easy to combine dependencies of multiple R packages, and,
-should anything go wrong due to conflicting Python dependencies, it also
-provides a straightforward way to revert to a working state at any time,
-by calling the helper function without arguments.</p>
-</div>
-<div id="automatic-configuration" class="section level2">
-<h2>Automatic Configuration</h2>
-<p>An alternative approach to the one describe above it to do automatic
-configuration. It’s possible for client packages to declare their Python
-dependencies in such a way that they are automatically installed in the
-currently activated Python environment. This is a maximally convenient
-approach; when it works it can feel a little bit magical, but it is also
-potentially dangerous and can result in frustration if something goes
-wrong. You can opt-in to this behavior as a package author through your
-packages <code>DESCRIPTION</code> file, with the use of the
-<code>Config/reticulate</code> field.</p>
-<p>With automatic configuration, <code>reticulate</code> envisions a
-world wherein different R packages wrapping Python packages can live
-together in the same Python environment / R session. This approach only
-works when the Python packages being wrapped don’t have conflicting
-dependencies.</p>
-<p>You must be a judge of the Python dependencies your R package
-requires–if automatically bootstrapping an installation of the python
-package into the users active python environment, whatever it may
-contain, is a safe action to perform by default. For example, this is
-most likely a safe action for a Python package like “requests”, but
-perhaps not a safe choice for a frequently updated package with many
-dependencies, like torch or tensorflow (e.g., it’s not uncommon for
-torch and tensorflow to have conflicting version requirements for
-dependencies like numpy or cuda). Keep in mind that, unlike CRAN, PyPI
-does not perform any compatibility or consistency checks across the
-package repository.</p>
-<div id="using-configreticulate" class="section level3">
-<h3>Using Config/reticulate</h3>
-<p>As a package author, you can opt-in to automatic configuration like
-this. For example, if we had a package <code>rscipy</code> that acted as
-an interface to the <a href="https://scipy.org">SciPy</a> Python
-package, we might use the following <code>DESCRIPTION</code>:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.setenv</span>(<span class="st">"RETICULATE_PYTHON_ENV"</span> <span class="ot">=</span> <span class="st">"~/my/project/venv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This approach minimizes the risk that an existing, already working, Python environment will accidentally be broken by installing packages, due to inadvertently upgrading or downgrading other Python packages already installed in the environment.</p>
+<p>Another approach is for users to install your R packages Python dependencies into another Python environment that is already on the search path. For example, users can <em>opt-in</em> to installing into the default <code>r-reticulate</code> venv:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>tensorflow<span class="sc">::</span><span class="fu">install_tensorflow</span>(<span class="at">envname =</span> <span class="st">"r-reticulate"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Or they can install one packages dependencies into another packages default environment. For example, installing spark into the default “r-tensorflow” environment:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>tensorflow<span class="sc">::</span><span class="fu">install_tensorflow</span>() <span class="co"># creates an "r-tensorflow" env</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>pysparklyr<span class="sc">::</span><span class="fu">install_pyspark</span>(<span class="at">envname =</span> <span class="st">"r-tensorflow"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This approach—exporting a installation helper function that defaults to a particular environment, and a hint in <code>.onLoad()</code> to use that environment—is one way to create a “pit-of-success”. It encourages a default workflow that is robust and reliable, especially for users not-yet familiar with the mechanics of Python installation management. At the same time, an installation helper function empowers users to manage Python environments through simply providing an environment name. It makes it easy to combine dependencies of multiple R packages, and, should anything go wrong due to conflicting Python dependencies, it also provides a straightforward way to revert to a working state at any time, by calling the helper function without arguments.</p>
+</section>
+<section id="automatic-configuration" class="level2">
+<h2 class="anchored" data-anchor-id="automatic-configuration">Automatic Configuration</h2>
+<p>An alternative approach to the one describe above it to do automatic configuration. It’s possible for client packages to declare their Python dependencies in such a way that they are automatically installed in the currently activated Python environment. This is a maximally convenient approach; when it works it can feel a little bit magical, but it is also potentially dangerous and can result in frustration if something goes wrong. You can opt-in to this behavior as a package author through your packages <code>DESCRIPTION</code> file, with the use of the <code>Config/reticulate</code> field.</p>
+<p>With automatic configuration, <code>reticulate</code> envisions a world wherein different R packages wrapping Python packages can live together in the same Python environment / R session. This approach only works when the Python packages being wrapped don’t have conflicting dependencies.</p>
+<p>You must be a judge of the Python dependencies your R package requires–if automatically bootstrapping an installation of the python package into the users active python environment, whatever it may contain, is a safe action to perform by default. For example, this is most likely a safe action for a Python package like “requests”, but perhaps not a safe choice for a frequently updated package with many dependencies, like torch or tensorflow (e.g., it’s not uncommon for torch and tensorflow to have conflicting version requirements for dependencies like numpy or cuda). Keep in mind that, unlike CRAN, PyPI does not perform any compatibility or consistency checks across the package repository.</p>
+<section id="using-configreticulate" class="level3">
+<h3 class="anchored" data-anchor-id="using-configreticulate">Using Config/reticulate</h3>
+<p>As a package author, you can opt-in to automatic configuration like this. For example, if we had a package <code>rscipy</code> that acted as an interface to the <a href="https://scipy.org">SciPy</a> Python package, we might use the following <code>DESCRIPTION</code>:</p>
 <pre><code>Package: rscipy
 Title: An R Interface to scipy
 Version: 1.0.0
@@ -526,117 +261,472 @@ Description: Provides an R interface to the Python package scipy.
 Config/reticulate/autoconfigure:
   list(
     packages = list(
-      list(package = &quot;scipy&quot;)
+      list(package = "scipy")
     )
   )
 &lt; ... other fields ... &gt;</code></pre>
-</div>
-<div id="installation" class="section level3">
-<h3>Installation</h3>
-<p>With this, <code>reticulate</code> will take care of automatically
-configuring a Python environment for the user when the
-<code>rscipy</code> package is loaded and used (i.e. it’s no longer
-necessary to provide the user with a special
-<code>install_tensorflow()</code> type function, though it’s still
-recommended to do so).</p>
-<p>Specifically, after the <code>rscipy</code> package is loaded, the
-following will occur:</p>
-<ol style="list-style-type: decimal">
-<li><p>Unless the user has explicitly instructed <code>reticulate</code>
-to use an existing Python environment, <code>reticulate</code> will
-prompt the user to download and install <a href="https://docs.conda.io/en/latest/miniconda.html">Miniconda</a> (if
-necessary).</p></li>
-<li><p>After this, when the Python session is initialized by
-<code>reticulate</code>, all declared dependencies of loaded packages in
-<code>Config/reticulate</code> will be discovered.</p></li>
-<li><p>These dependencies will then be installed into an appropriate
-Conda environment, as provided by the Miniconda installation.</p></li>
+</section>
+<section id="installation" class="level3">
+<h3 class="anchored" data-anchor-id="installation">Installation</h3>
+<p>With this, <code>reticulate</code> will take care of automatically configuring a Python environment for the user when the <code>rscipy</code> package is loaded and used (i.e.&nbsp;it’s no longer necessary to provide the user with a special <code>install_tensorflow()</code> type function, though it’s still recommended to do so).</p>
+<p>Specifically, after the <code>rscipy</code> package is loaded, the following will occur:</p>
+<ol type="1">
+<li><p>Unless the user has explicitly instructed <code>reticulate</code> to use an existing Python environment, <code>reticulate</code> will prompt the user to download and install <a href="https://docs.conda.io/en/latest/miniconda.html">Miniconda</a> (if necessary).</p></li>
+<li><p>After this, when the Python session is initialized by <code>reticulate</code>, all declared dependencies of loaded packages in <code>Config/reticulate</code> will be discovered.</p></li>
+<li><p>These dependencies will then be installed into an appropriate Conda environment, as provided by the Miniconda installation.</p></li>
 </ol>
-<p>In this case, the end user workflow will be exactly as with an R
-package that has no Python dependencies:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">library</span>(rscipy)</span>
-<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="co"># use the package</span></span></code></pre></div>
-<p>If the user has no compatible version of Python available on their
-system, they will be prompted to install Miniconda. If they do have
-Python already, then the required Python packages (in this case
-<code>scipy</code>) will be installed in the standard shared environment
-for R sessions (typically a virtual environment, or a Conda environment
-named “r-reticulate”).</p>
-<p>In effect, users have to pay a one-time, mostly-automated
-initialization cost in order to use your package, and then things will
-then work as any other R package would. In particular, users are
-otherwise insulated from details as to how <code>reticulate</code>
-works.</p>
-</div>
-<div id="onload-configuration" class="section level3">
-<h3>.onLoad Configuration</h3>
-<p>In some cases, a user may try to load your package after Python has
-already been initialized. To ensure that <code>reticulate</code> can
-still configure the active Python environment, you can include the
-code:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>.onLoad <span class="ot">&lt;-</span> <span class="cf">function</span>(libname, pkgname) {</span>
-<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>  reticulate<span class="sc">::</span><span class="fu">configure_environment</span>(pkgname)</span>
-<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>}</span></code></pre></div>
-<p>This will instruct <code>reticulate</code> to immediately try to
-configure the active Python environment, installing any required Python
-packages as necessary.</p>
-</div>
-</div>
-<div id="versions" class="section level2">
-<h2>Versions</h2>
-<p>The goal of these mechanisms is to allow easy interoperability
-between R packages that have Python dependencies, as well as to minimize
-specialized version/configuration steps for end-users. To that end,
-<code>reticulate</code> will (by default) track an older version of
-Python than the current release, giving Python packages time to adapt as
-is required. Python 2 will not be supported.</p>
-<p>Tools for breaking these rules are not yet implemented, but will be
-provided as the need arises.</p>
-</div>
-<div id="format" class="section level2">
-<h2>Format</h2>
-<p>Declared Python package dependencies should have the following
-format:</p>
+<p>In this case, the end user workflow will be exactly as with an R package that has no Python dependencies:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rscipy)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># use the package</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If the user has no compatible version of Python available on their system, they will be prompted to install Miniconda. If they do have Python already, then the required Python packages (in this case <code>scipy</code>) will be installed in the standard shared environment for R sessions (typically a virtual environment, or a Conda environment named “r-reticulate”).</p>
+<p>In effect, users have to pay a one-time, mostly-automated initialization cost in order to use your package, and then things will then work as any other R package would. In particular, users are otherwise insulated from details as to how <code>reticulate</code> works.</p>
+</section>
+<section id="onload-configuration" class="level3">
+<h3 class="anchored" data-anchor-id="onload-configuration">.onLoad Configuration</h3>
+<p>In some cases, a user may try to load your package after Python has already been initialized. To ensure that <code>reticulate</code> can still configure the active Python environment, you can include the code:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>.onLoad <span class="ot">&lt;-</span> <span class="cf">function</span>(libname, pkgname) {</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  reticulate<span class="sc">::</span><span class="fu">configure_environment</span>(pkgname)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This will instruct <code>reticulate</code> to immediately try to configure the active Python environment, installing any required Python packages as necessary.</p>
+</section>
+</section>
+<section id="versions" class="level2">
+<h2 class="anchored" data-anchor-id="versions">Versions</h2>
+<p>The goal of these mechanisms is to allow easy interoperability between R packages that have Python dependencies, as well as to minimize specialized version/configuration steps for end-users. To that end, <code>reticulate</code> will (by default) track an older version of Python than the current release, giving Python packages time to adapt as is required. Python 2 will not be supported.</p>
+<p>Tools for breaking these rules are not yet implemented, but will be provided as the need arises.</p>
+</section>
+<section id="format" class="level2">
+<h2 class="anchored" data-anchor-id="format">Format</h2>
+<p>Declared Python package dependencies should have the following format:</p>
 <ul>
-<li><p><strong>package</strong>: The name of the Python
-package.</p></li>
-<li><p><strong>version</strong>: The version of the package that should
-be installed. When left unspecified, the latest-available version will
-be installed. This should only be set in exceptional cases – for
-example, if the most recently-released version of a Python package
-breaks compatibility with your package (or other Python packages) in a
-fundamental way. If multiple R packages request different versions of a
-particular Python package, <code>reticulate</code> will signal a
-warning.</p></li>
-<li><p><strong>pip</strong>: Whether this package should be retrieved
-from the <a href="https://pypi.org">PyPI</a> with <code>pip</code>, or
-(if <code>FALSE</code>) from the Anaconda repositories.</p></li>
+<li><p><strong>package</strong>: The name of the Python package.</p></li>
+<li><p><strong>version</strong>: The version of the package that should be installed. When left unspecified, the latest-available version will be installed. This should only be set in exceptional cases – for example, if the most recently-released version of a Python package breaks compatibility with your package (or other Python packages) in a fundamental way. If multiple R packages request different versions of a particular Python package, <code>reticulate</code> will signal a warning.</p></li>
+<li><p><strong>pip</strong>: Whether this package should be retrieved from the <a href="https://pypi.org">PyPI</a> with <code>pip</code>, or (if <code>FALSE</code>) from the Anaconda repositories.</p></li>
 </ul>
-<p>For example, we could change the <code>Config/reticulate</code>
-directive from above to specify that <code>scipy [1.3.0]</code> be
-installed from PyPI (with <code>pip</code>):</p>
+<p>For example, we could change the <code>Config/reticulate</code> directive from above to specify that <code>scipy [1.3.0]</code> be installed from PyPI (with <code>pip</code>):</p>
 <pre><code>Config/reticulate:
   list(
     packages = list(
-      list(package = &quot;scipy&quot;, version = &quot;1.3.0&quot;, pip = TRUE)
+      list(package = "scipy", version = "1.3.0", pip = TRUE)
     )
   )</code></pre>
-</div>
 
 
+</section>
 
-<!-- code folding -->
-
-
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
-  (function () {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
-    document.getElementsByTagName("head")[0].appendChild(script);
-  })();
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/swayam-singh123\.github\.io\/Quarto-Penguin-Analysis\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
 </script>
+</div> <!-- /content -->
 
-</body>
-</html>
+
+
+
+</body></html>

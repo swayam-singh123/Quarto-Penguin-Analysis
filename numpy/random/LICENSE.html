@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Final Project - R Markdown Python Engine</title>
+<title>Final Project</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -116,74 +116,43 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
-  <li><a href="#python-version" id="toc-python-version" class="nav-link" data-scroll-target="#python-version">Python Version</a></li>
-  <li><a href="#python-chunks" id="toc-python-chunks" class="nav-link" data-scroll-target="#python-chunks">Python Chunks</a></li>
-  <li><a href="#calling-python-from-r" id="toc-calling-python-from-r" class="nav-link" data-scroll-target="#calling-python-from-r">Calling Python from R</a></li>
-  <li><a href="#calling-r-from-python" id="toc-calling-r-from-python" class="nav-link" data-scroll-target="#calling-r-from-python">Calling R from Python</a></li>
-  <li><a href="#engine-setup" id="toc-engine-setup" class="nav-link" data-scroll-target="#engine-setup">Engine Setup</a></li>
+  <li><a href="#ncsa-open-source-license" id="toc-ncsa-open-source-license" class="nav-link active" data-scroll-target="#ncsa-open-source-license">NCSA Open Source License</a></li>
+  <li><a href="#clause-bsd-license" id="toc-clause-bsd-license" class="nav-link" data-scroll-target="#clause-bsd-license">3-Clause BSD License</a></li>
+  <li><a href="#components" id="toc-components" class="nav-link" data-scroll-target="#components">Components</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">R Markdown Python Engine</h1>
-</div>
 
 
 
-<div class="quarto-title-meta">
-
-    
-  
-    
-  </div>
-  
-
-
-</header>
-
-
-<section id="overview" class="level2">
-<h2 class="anchored" data-anchor-id="overview">Overview</h2>
-<p>The <strong>reticulate</strong> package includes a Python engine for <a href="https://rmarkdown.rstudio.com/">R Markdown</a> that enables easy interoperability between Python and R chunks.</p>
-<p>Python chunks behave very similar to R chunks (including graphical output from matplotlib) and the two languages have full access each other’s objects. Built in conversion for many Python object types is provided, including <a href="https://numpy.org/">NumPy</a> arrays and <a href="https://pandas.pydata.org/">Pandas</a> data frames.</p>
-<p>If you are using knitr version 1.18 or higher, then the reticulate Python engine will be enabled by default whenever reticulate is installed and no further setup is required. If you are running an earlier version of knitr or want to disable the use of the reticulate engine see the <a href="#engine-setup">Engine Setup</a> section below.</p>
+<p><strong>This software is dual-licensed under the The University of Illinois/NCSA Open Source License (NCSA) and The 3-Clause BSD License</strong></p>
+<section id="ncsa-open-source-license" class="level1">
+<h1>NCSA Open Source License</h1>
+<p><strong>Copyright (c) 2019 Kevin Sheppard. All rights reserved.</strong></p>
+<p>Developed by: Kevin Sheppard (<a href="mailto:kevin.sheppard@economics.ox.ac.uk" class="email">kevin.sheppard@economics.ox.ac.uk</a>, <a href="mailto:kevin.k.sheppard@gmail.com" class="email">kevin.k.sheppard@gmail.com</a>) <a href="http://www.kevinsheppard.com">http://www.kevinsheppard.com</a></p>
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal with the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
+<p>Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimers.</p>
+<p>Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimers in the documentation and/or other materials provided with the distribution.</p>
+<p>Neither the names of Kevin Sheppard, nor the names of any contributors may be used to endorse or promote products derived from this Software without specific prior written permission.</p>
+<p><strong>THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE CONTRIBUTORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS WITH THE SOFTWARE.</strong></p>
 </section>
-<section id="python-version" class="level2">
-<h2 class="anchored" data-anchor-id="python-version">Python Version</h2>
-<p>By default, reticulate uses the version of Python found on your <code>PATH</code> (i.e.&nbsp;<code>Sys.which("python")</code>). If you want to use an alternate version you should add one of the <code>use_python()</code> family of functions to your R Markdown setup chunk, for example:</p>
-<p><img src="images/python_version.png" class="screenshot img-fluid" style="width:98.0%"></p>
-<p>See the article on <a href="versions.html">Python Version Configuration</a> for additional details on configuring Python versions (including the use of conda or virtualenv environments).</p>
+<section id="clause-bsd-license" class="level1">
+<h1>3-Clause BSD License</h1>
+<p><strong>Copyright (c) 2019 Kevin Sheppard. All rights reserved.</strong></p>
+<p>Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:</p>
+<ol type="1">
+<li><p>Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.</p></li>
+<li><p>Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.</p></li>
+<li><p>Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.</p></li>
+</ol>
+<p><strong>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS “AS IS” AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</strong></p>
 </section>
-<section id="python-chunks" class="level2">
-<h2 class="anchored" data-anchor-id="python-chunks">Python Chunks</h2>
-<p>Python code chunks work exactly like R code chunks: Python code is executed and any print or graphical (matplotlib) output is included within the document.</p>
-<p>Python chunks all execute within a single Python session so have access to all objects created in previous chunks. Chunk options like <code>echo</code>, <code>include</code>, etc. all work as expected.</p>
-<p>Here’s an R Markdown document that demonstrates this:</p>
-<p><img src="images/python_chunks.png" class="screenshot img-fluid" style="width:98.0%"></p>
-<p><a href="https://posit.co/download/rstudio-desktop/">RStudio v1.2</a> or greater for reticulate IDE support.</p>
-</section>
-<section id="calling-python-from-r" class="level2">
-<h2 class="anchored" data-anchor-id="calling-python-from-r">Calling Python from R</h2>
-<p>All objects created within Python chunks are available to R using the <code>py</code> object exported by the reticulate package. For example, the following code demonstrates reading and filtering a CSV file using Pandas then plotting the resulting data frame using ggplot2:</p>
-<p><img src="images/rmarkdown_engine_zoomed.png" class="screenshot img-fluid" style="width:98.0%"></p>
-<p>See the <a href="calling_python.html">Calling Python from R</a> article for additional details on how to interact with Python types from within R</p>
-</section>
-<section id="calling-r-from-python" class="level2">
-<h2 class="anchored" data-anchor-id="calling-r-from-python">Calling R from Python</h2>
-<p>You can analogously access R objects within Python chunks via the <code>r</code> object. For example:</p>
-<p><img src="images/r_from_python.png" class="screenshot img-fluid" style="width:98.0%"></p>
-</section>
-<section id="engine-setup" class="level2">
-<h2 class="anchored" data-anchor-id="engine-setup">Engine Setup</h2>
-<p>If you are using a version of knitr prior to 1.18 then add this code to your setup chunk to enable the reticulate Python engine:</p>
-<p><img src="images/reticulate_enable.png" class="screenshot img-fluid" style="width:98.0%"></p>
-<p>If you do not wish to use the reticulate Python engine then set the <code>python.reticulate</code> chunk option to <code>FALSE</code>:</p>
-<p><img src="images/reticulate_disable.png" class="screenshot img-fluid" style="width:98.0%"></p>
+<section id="components" class="level1">
+<h1>Components</h1>
+<p>Many parts of this module have been derived from original sources, often the algorithm’s designer. Component licenses are located with the component code.</p>
 
 
 </section>

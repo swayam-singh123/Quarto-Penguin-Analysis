@@ -151,7 +151,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#penguin-size-vs-mass-by-species" id="toc-penguin-size-vs-mass-by-species" class="nav-link active" data-scroll-target="#penguin-size-vs-mass-by-species">Penguin Size vs Mass by Species</a></li>
-  <li><a href="#penguin-size-vs-mass-by-species-1" id="toc-penguin-size-vs-mass-by-species-1" class="nav-link" data-scroll-target="#penguin-size-vs-mass-by-species-1">Penguin Size vs Mass by Species</a></li>
+  <li><a href="#classification-with-a-random-forest-model" id="toc-classification-with-a-random-forest-model" class="nav-link" data-scroll-target="#classification-with-a-random-forest-model">Classification With a Random Forest Model</a></li>
   <li><a href="#penguin-flipper-length-vs.-body-mass" id="toc-penguin-flipper-length-vs.-body-mass" class="nav-link" data-scroll-target="#penguin-flipper-length-vs.-body-mass">Penguin Flipper Length vs.&nbsp;Body Mass</a></li>
   </ul>
 </nav>
@@ -184,7 +184,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">init</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>A large number of files (1402 in total) have been discovered.
+<pre><code>A large number of files (1407 in total) have been discovered.
 It may take renv a long time to crawl these files for dependencies.
 Consider using .renvignore to ignore irrelevant files.
 See `?renv::dependencies` for more information.
@@ -203,7 +203,7 @@ These packages will be installed into "~/AppData/Local/R/cache/R/renv/library/Fi
 
 # Installing packages --------------------------------------------------------
 - Installing dplyr ...                          OK [linked from cache]
-Successfully installed 1 package in 33 milliseconds.</code></pre>
+Successfully installed 1 package in 31 milliseconds.</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -230,7 +230,7 @@ Attaching package: 'dplyr'</code></pre>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">snapshot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>A large number of files (1402 in total) have been discovered.
+<pre><code>A large number of files (1407 in total) have been discovered.
 It may take renv a long time to crawl these files for dependencies.
 Consider using .renvignore to ignore irrelevant files.
 See `?renv::dependencies` for more information.
@@ -251,7 +251,7 @@ These packages will be installed into "~/AppData/Local/R/cache/R/renv/library/Fi
 
 # Installing packages --------------------------------------------------------
 - Installing palmerpenguins ...                 OK [linked from cache]
-Successfully installed 1 package in 31 milliseconds.</code></pre>
+Successfully installed 1 package in 32 milliseconds.</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -264,7 +264,7 @@ Successfully installed 1 package in 31 milliseconds.</code></pre>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">snapshot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>A large number of files (1402 in total) have been discovered.
+<pre><code>A large number of files (1407 in total) have been discovered.
 It may take renv a long time to crawl these files for dependencies.
 Consider using .renvignore to ignore irrelevant files.
 See `?renv::dependencies` for more information.
@@ -449,8 +449,8 @@ Set `options(renv.config.dependencies.limit = Inf)` to disable this warning.
 </div>
 </div>
 </section>
-<section id="penguin-size-vs-mass-by-species-1" class="level2">
-<h2 class="anchored" data-anchor-id="penguin-size-vs-mass-by-species-1">Penguin Size vs Mass by Species</h2>
+<section id="classification-with-a-random-forest-model" class="level2">
+<h2 class="anchored" data-anchor-id="classification-with-a-random-forest-model">Classification With a Random Forest Model</h2>
 <p>The code trains a decision tree model to classify penguin sex, visualizes the tree, assesses its predictive accuracy, and creates a confusion matrix for the predictions.</p>
 <div class="cell">
 <details class="code-fold">
@@ -468,7 +468,7 @@ These packages will be installed into "~/AppData/Local/R/cache/R/renv/library/Fi
 
 # Installing packages --------------------------------------------------------
 - Installing randomForest ...                   OK [linked from cache]
-Successfully installed 1 package in 23 milliseconds.</code></pre>
+Successfully installed 1 package in 24 milliseconds.</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -505,7 +505,7 @@ These packages will be installed into "~/AppData/Local/R/cache/R/renv/library/Fi
 
 # Installing packages --------------------------------------------------------
 - Installing broom ...                          OK [linked from cache]
-Successfully installed 1 package in 32 milliseconds.</code></pre>
+Successfully installed 1 package in 27 milliseconds.</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -525,13 +525,13 @@ Successfully installed 1 package in 32 milliseconds.</code></pre>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>                     female      male MeanDecreaseAccuracy MeanDecreaseGini
-species           13.585920 18.726751            24.136266         8.600537
-island            10.234026  6.120893            12.098834         3.959625
-bill_length_mm    27.637570 20.718865            31.216049        32.991611
-bill_depth_mm     32.875060 34.976923            46.462032        46.910100
-flipper_length_mm 13.053278 14.198354            19.628088        19.402860
-body_mass_g       43.504468 33.515871            51.570354        46.642498
-year               4.229189  2.389190             4.650427         3.543645</code></pre>
+species           13.791440 18.119864            22.139508         7.858615
+island             8.210468  5.971069            10.950605         3.910339
+bill_length_mm    26.039126 20.599254            30.629328        32.326740
+bill_depth_mm     33.415734 36.114854            45.354716        45.511408
+flipper_length_mm 11.811815 14.137165            19.061516        20.684744
+body_mass_g       41.551814 34.804987            51.091079        48.686695
+year               3.198159  4.433604             5.177902         3.359945</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
